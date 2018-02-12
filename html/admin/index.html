@@ -4,15 +4,61 @@
         <meta charset="utf-8">
         <script src="//code.jquery.com/jquery-latest.js"></script>
         <script src="js/login.js"></script>
+        <script src="js/forge-sha256.min.js"></script>
     </head>
     <body>
-        <form>
-            <input type="text" name="username" id="username">
-            <input type="password" name="password" id="password">
-            <button name="login" id="login">Login</button>
+        <form id="access">
+            <input type="text" id="username" placeholder="Username" required autofocus name="username">
+            <input type="password" id="password" placeholder="Password" required autofocus name="password">
         </form>
+        <button type="submit" id="sendLogin">Login</button>
+        <div id="loggedUser">
+            <h3>Bienvenido <span id="user"></span></h3>
+        </div>
+        <div>
+            <span id="debugg-response"></span>
+        </div>
+        <script>
+            $.fn.serializeObject = function ()
+            {
+                // http://jsfiddle.net/davidhong/gP9bh/
+                var o = {};
+                var a = this.serializeArray();
+                $.each(a, function () {
+                    if (o[this.name] !== undefined) {
+                        if (!o[this.name].push) {
+                            o[this.name] = [o[this.name]];
+                        }
+                        o[this.name].push(this.value || '');
+                    } else {
+                        o[this.name] = encodeURIComponent(this.value) || '';
+                    }
+                });
+                return o;
+            };
+            $(document).ready(function () {
+                $("#loggedUser").hide();
+                $("#sendLogin").click(function () {
+                    valores = $("#access").serializeObject();
+                    valores.password = forge_sha256($("#password").val());
+                    datos = {ob: "user", op: "login", json: JSON.stringify(valores)};
+                    $("#debugg-response").empty().append(datos.json);
+                    $.ajax({
+                        type: "POST",
+                        url: "http://localhost:8080/fanlist/server/controller.php",
+                        data: datos,
+                        dataType: "json",
+                        success: function (response) {
+                            $("#user").empty().append(response.json.login);
+                            $("#loggedUser").show();
+                        },
+                        error: function (error) {
+                            alert("Error");
+                        }
+                    });
+                })
+            });
+        </script>
 
-        <div id="respuesta"></div>
-        <div id="error"></div>
     </body>
 </html>

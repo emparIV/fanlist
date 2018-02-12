@@ -3,7 +3,7 @@
 /**
  * Description of FilterBeanHelper
  *
- * @author a053881694p
+ * @author Empar Ibáñez
  */
 class FilterBeanHelper {
     private $link;

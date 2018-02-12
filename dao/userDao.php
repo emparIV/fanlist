@@ -1,13 +1,13 @@
 <?php
 
 require '../helper/connection.php';
-require '../helper/sqlHelper.php';
+require '../helper/SqlHelper.php';
 require '../bean/userBean.php';
 
 /**
  * Description of userDao
  *
- * @author a053881694p
+ * @author Empar Ibáñez
  */
 class userDao implements DaoTableInterface, DaoViewInterface {
     

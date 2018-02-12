@@ -3,7 +3,7 @@
 /**
  * Description of userBean
  *
- * @author a053881694p
+ * @author Empar Ibáñez
  */
 class userBean {
     private $id;

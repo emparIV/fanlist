@@ -5,7 +5,7 @@ require '../helper/FilterBeanHelper.php';
 /**
  * Description of sqlHelper
  *
- * @author a053881694p
+ * @author Empar Ibáñez
  */
 class sqlHelper {
     public function buildSqlLimit($totalRegs, $regsPerPage, $pageNumber) {
