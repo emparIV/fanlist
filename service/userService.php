@@ -22,12 +22,11 @@ class userService implements ServiceTableInterface, ServiceViewInterface {
     }
     
     public function login($json) {
-        $connection = new ConnectionHelper();
         $oBean = new UserBean();
         $oBean->construct($json);
-        if (!($oBean->getLogin()) == "" && !($oBean->getPass()) == "") {
+        if (!($oBean->getUsername()) == "" && !($oBean->getPassword()) == "") {
             try {
-                $oDao = new UserDao($connection->getConnection());
+                $oDao = new UserDao();
                 $oResult = $oDao->getFromLoginAndPass($oBean);
                 session_start();
                 $_SESSION['user'] = $oResult;

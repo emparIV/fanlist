@@ -1,8 +1,10 @@
 <?php
 
-require '../helper/connection.php';
+require '../helper/ConnectionHelper.php';
 require '../helper/SqlHelper.php';
 require '../bean/userBean.php';
+require 'DaoTableInterface.php';
+require 'DaoViewInterface';
 
 /**
  * Description of userDao
@@ -11,8 +13,7 @@ require '../bean/userBean.php';
  */
 class userDao implements DaoTableInterface, DaoViewInterface {
     
-    public function construct($conexion) {
-        $this->conexion = $conexion;
+    public function construct() {
     }
 
     public function get($bean) {
@@ -95,17 +96,19 @@ class userDao implements DaoTableInterface, DaoViewInterface {
         
     }
 
-    public function getFromLoginAndPass() {
-        if ($this->conexion) {
+    public function getFromLoginAndPass($array) {
+        $connection = new ConnectionHelper();
+        if ($connection->checkConnection()) {
             try {
+                $sql = $connection->getConnection();
                 $resultSet = NULL;
-                $preparedStatement = $mysqli->prepare("SELECT * FROM ? WHERE 1=1 AND username = ? AND password = ?");
-                $preparedStatement->bind_param('sss', "user", $bean->username, $bean->password);
+                $preparedStatement = $mysqli->prepare("SELECT * FROM ? WHERE 1=1 AND username = '?' AND password = '?'");
+                $preparedStatement->bind_param('sss', "user", $array->username, $array->password);
                 $preparedStatement->execute();
                 $preparedStatement->store_result();
                 if ($preparedStatement->num_rows > 0) {
                     $resultSet = mysqli_fetch_array($preparedStatement, MYSQLI_ASSOC);
-                    $oBean = new UsuarioBean();
+                    $oBean = new UserBean();
                     $oBean->construct($resultSet);
                 } else {
                     throw new Exception();

@@ -41,11 +41,11 @@
                 $("#sendLogin").click(function () {
                     valores = $("#access").serializeObject();
                     valores.password = forge_sha256($("#password").val());
-                    datos = {ob: "user", op: "login", json: JSON.stringify(valores)};
+                    datos = {"ob": "user", "op": "login", "json": JSON.stringify(valores)};
                     $("#debugg-response").empty().append(datos.json);
                     $.ajax({
                         type: "POST",
-                        url: "http://localhost:8080/fanlist/server/controller.php",
+                        url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
                         data: datos,
                         dataType: "json",
                         success: function (response) {

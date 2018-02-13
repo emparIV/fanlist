@@ -12,7 +12,7 @@ class connectionHelper {
     private $mysqli;
 
     function checkConnection() {
-        $connection = new mysqli($hostname, $username, $password, $dbname);
+        $connection = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
         if ($connection->connect_errno) {
             return false;
         } else {
@@ -22,7 +22,7 @@ class connectionHelper {
     }
     
     public function getConnection() {
-        return $this->mysqli;
+       return $connection = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
     }
 
 }

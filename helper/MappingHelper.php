@@ -9,7 +9,7 @@
  */
 class MappingHelper {
 
-    public static function mappingHelper($ob, $op, $json) {
+    public function mappingHelper($ob, $op, $json) {
         $oReplyBean = NULL;
         switch ($ob) {
             case "user":
