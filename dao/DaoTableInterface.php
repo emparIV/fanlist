@@ -4,7 +4,7 @@
  * @author Empar
  */
 interface DaoTableInterface {
-    public function get($bean);
-    public function set($bean);
-    public function remove($bean);
+    public function get($id);
+    public function set($id);
+    public function remove($id);
 }

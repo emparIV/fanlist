@@ -48,16 +48,15 @@ class UserService implements ServiceTableInterface, ServiceViewInterface {
 
     public function get() {
         if ($this->checkPermission()) {
-            $id = $json['id'];
-            $connection = new ConnectionHelper();
+            $id = $_SESSION['user']['id'];
             try {
                 $oDao = new userDao();
-                $oResult = $oDao->get($json);
+                $oResult = $oDao->get($id);
                 $aResult = ["status" => 200, "json" => $oResult];
             } catch (Exception $ex) {
                 throw new Exception($ex->getMessage());
             }
-            return $oReplyBean;
+            return $aResult;
         } else {
             $aResult = ["status" => 401, "json" => "Unauthorized operation"];
             return $aResult;

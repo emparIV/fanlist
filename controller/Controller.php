@@ -11,6 +11,8 @@ require '../service/ServiceViewInterface.php';
 require '../service/UserService.php';
 require '../helper/MappingHelper.php';
 
+session_start();
+
 function jsonHeader($code = 200) {
     header('Content-Type: application/json; charset=utf-8', true, $code);
     header("HTTP/1.1 $code");

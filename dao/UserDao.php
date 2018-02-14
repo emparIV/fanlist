@@ -11,14 +11,14 @@ class UserDao implements DaoTableInterface, DaoViewInterface {
         
     }
 
-    public function get($array) {
+    public function get($id) {
         $connection = new ConnectionHelper();
         if ($connection->checkConnection()) {
             try {
                 $sql = $connection->getConnection();
                 $aTest = NULL;
                 $preparedStatement = $mysqli->prepare("SELECT * FROM ? WHERE 1=1 AND id= ?");
-                $preparedStatement->bind_param('si', "user", $array['id']);
+                $preparedStatement->bind_param('si', "user", $id);
                 $preparedStatement->execute();
                 $preparedStatement->store_result();
                 $rows = $preparedStatement->num_rows;
