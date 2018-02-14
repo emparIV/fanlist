@@ -6,5 +6,5 @@
  */
 interface DaoViewInterface {
     public function getCount($bean);
-    public function getPage($bean);
+    public function getPage($regsPerPage, $page, $alOrder, $alFilter);
 }

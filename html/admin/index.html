@@ -13,11 +13,9 @@
         </form>
         <button type="submit" id="sendLogin">Login</button>
         <div id="loggedUser">
-            <h3>Bienvenido <span id="user"></span></h3>
+            <h3>Sesión iniciada, <span id="user"></span> con email <span id="email"></span>. Este id sale al usar el get:<span id="id"></span></h3>
         </div>
-        <div>
-            <span id="debugg-response"></span>
-        </div>
+        <button type="submit" id="tryGet">Get</button>
         <script>
             $.fn.serializeObject = function ()
             {
@@ -38,21 +36,47 @@
             };
             $(document).ready(function () {
                 $("#loggedUser").hide();
+                $("#tryGet").hide();
                 $("#sendLogin").click(function () {
                     valores = $("#access").serializeObject();
                     valores.password = forge_sha256($("#password").val());
                     datos = {"ob": "user", "op": "login", "json": JSON.stringify(valores)};
-                    $("#debugg-response").empty().append(datos.json);
                     $.ajax({
                         type: "POST",
                         url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
                         data: datos,
                         dataType: "json",
-                        success: function (response) {
-                            $("#user").empty().append(response.json.login);
-                            $("#loggedUser").show();
+                        success: function (data) {
+                            if (data.status == 200) {
+                                $("#user").empty().append(data.json.username);
+                                $("#email").empty().append(data.json.mail);
+                                $("#loggedUser").show();
+                                $("#tryGet").show();
+                            } else {
+                                alert("Error")
+                            }
                         },
-                        error: function (error) {
+                        error: function (data) {
+                            alert("Error");
+                        }
+                    });
+                })
+                
+                $("#tryGet").click(function () {
+                    datos = {"ob": "user", "op": "get", "json": JSON.stringify(valores)};
+                    $.ajax({
+                        type: "POST",
+                        url: "http://127.0.0.1:8080/fanlist/controller/Controller.php?XDEBUG_SESSION_START=netbeans-xdebug",
+                        data: datos,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.status == 200) {
+                                $("#id").empty().append(data.json.id);
+                            } else {
+                                alert("Error")
+                            }
+                        },
+                        error: function (data) {
                             alert("Error");
                         }
                     });

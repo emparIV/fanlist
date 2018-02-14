@@ -1,6 +1,5 @@
 <?php
 
-require '../helper/FilterBeanHelper.php';
 
 /**
  * Description of sqlHelper

@@ -1,18 +1,18 @@
 <?php
 
-require ("../config/database.php");
 
 /**
  * Description of connectionHelper
  *
  * @author Empar Ibáñez
  */
-class connectionHelper {
+class ConnectionHelper {
+    
 
     private $mysqli;
 
-    function checkConnection() {
-        $connection = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
+    public function checkConnection() {
+        $connection = new mysqli("127.0.0.1", "root", "bitnami", "fanlist");
         if ($connection->connect_errno) {
             return false;
         } else {
@@ -22,7 +22,7 @@ class connectionHelper {
     }
     
     public function getConnection() {
-       return $connection = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
+       return $this->mysqli;
     }
 
 }

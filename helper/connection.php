@@ -1,6 +1,6 @@
 <?php
 
-require ("../config/database.php");
+
 
 $mysqli = new mysqli($hostname, $username, $password, $dbname);
 

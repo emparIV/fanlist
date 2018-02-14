@@ -1,7 +1,6 @@
 <?php
 
 
-
 /**
  * Description of MappingHelper
  *
@@ -9,48 +8,40 @@
  */
 class MappingHelper {
 
-    public function mappingHelper($ob, $op, $json) {
-        $oReplyBean = NULL;
+    public function mapping($ob, $op, $json) {
+        $aResult = NULL;
         switch ($ob) {
             case "user":
-                $oUsuarioService = new UsuarioService();
+                $oUserService = new UserService();
                 switch ($op) {
                     case "login":
-                        $aResult = [$oUsuarioService->login($json)];
-                        $oReplyBean = new ReplyBean($aResult);
+                        $aResult = $oUserService->login($json);
                         break;
                     case "logout":
-                        $aResult = [$oUsuarioService->logout($json)];
-                        $oReplyBean = new ReplyBean($aResult);
+                        $aResult = $oUserService->logout($json);
                         break;
                     case "get":
-                        $aResult = [$oUsuarioService->get($json)];
-                        $oReplyBean = new ReplyBean($aResult);
+                        $aResult = $oUserService->get($json);
                         break;
                     case "set":
-                        $aResult = [$oUsuarioService->set($json)];
-                        $oReplyBean = new ReplyBean($aResult);
+                        $aResult = $oUserService->set($json);
                         break;
                     case "remove":
-                        $aResult = [$oUsuarioService->remove($json)];
-                        $oReplyBean = new ReplyBean($aResult);
+                        $aResult = $oUserService->remove($json);
                         break;
                     case "getCount":
-                        $aResult = [$oUsuarioService->getCount($json)];
-                        $oReplyBean = new ReplyBean($aResult);
+                        $aResult = $oUserService->getCount($json);
                         break;
                     case "getPage":
-                        $aResult = [$oUsuarioService->getPage($json)];
-                        $oReplyBean = new ReplyBean($aResult);
+                        $aResult = $oUserService->getPage($json);
                         break;
                 }
                 break;
             default:
-                $aResult = [500, "Object not found : Please contact your administrator"];
-                $oReplyBean = new ReplyBean($aResult);
+                return $aResult = ["status" => 500, "json" =>  "Object not found : Please contact your administrator"];
                 break;
         }
-        return $oReplyBean;
+        return $aResult;
     }
 
 }

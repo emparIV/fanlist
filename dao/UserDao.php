@@ -1,33 +1,41 @@
 <?php
 
-require '../helper/ConnectionHelper.php';
-require '../helper/SqlHelper.php';
-require '../bean/userBean.php';
-require 'DaoTableInterface.php';
-require 'DaoViewInterface';
-
 /**
  * Description of userDao
  *
  * @author Empar Ibáñez
  */
-class userDao implements DaoTableInterface, DaoViewInterface {
-    
+class UserDao implements DaoTableInterface, DaoViewInterface {
+
     public function construct() {
+        
     }
 
-    public function get($bean) {
-        if ($this->conexion) {
+    public function get($array) {
+        $connection = new ConnectionHelper();
+        if ($connection->checkConnection()) {
             try {
-                $resultSet = NULL;
+                $sql = $connection->getConnection();
+                $aTest = NULL;
                 $preparedStatement = $mysqli->prepare("SELECT * FROM ? WHERE 1=1 AND id= ?");
-                $preparedStatement->bind_param('si', "user", $bean->id);
+                $preparedStatement->bind_param('si', "user", $array['id']);
                 $preparedStatement->execute();
                 $preparedStatement->store_result();
-                if ($preparedStatement->num_rows > 0) {
-                    $resultSet = mysqli_fetch_array($preparedStatement, MYSQLI_ASSOC);
-                    $oBean = new UsuarioBean();
-                    $oBean = $bean->construct($resultSet);
+                $rows = $preparedStatement->num_rows;
+                if ($rows > 0) {
+                    $meta = $preparedStatement->result_metadata();
+                    while ($field = $meta->fetch_field()) {
+                        $params[] = &$row[$field->name];
+                    }
+                    call_user_func_array(array($preparedStatement, 'bind_result'), $params);
+                    while ($preparedStatement->fetch()) {
+                        foreach ($row as $key => $val) {
+                            $c[$key] = $val;
+                        }
+                        $aTest = $c;
+                    }
+
+                    $aResponse = $aTest;
                 } else {
                     throw new Exception();
                 }
@@ -41,7 +49,7 @@ class userDao implements DaoTableInterface, DaoViewInterface {
         } else {
             throw new Exception();
         }
-        return $oBean;
+        return $aResponse;
     }
 
     public function set($bean) {
@@ -72,7 +80,7 @@ class userDao implements DaoTableInterface, DaoViewInterface {
                             $bean->custom_field3, $bean->custom_field4, $bean->custom_field5, $bean->id);
                     $preparedStatement->execute();
                     $preparedStatement->store_result();
-                }
+    }
                 if ($preparedStatement->num_rows < 0) {                    
                     throw new Exception();
                 }
@@ -91,7 +99,7 @@ class userDao implements DaoTableInterface, DaoViewInterface {
         }
         return $iResult;
     }
-    
+
     public function remove($bean) {
         
     }
@@ -101,15 +109,26 @@ class userDao implements DaoTableInterface, DaoViewInterface {
         if ($connection->checkConnection()) {
             try {
                 $sql = $connection->getConnection();
-                $resultSet = NULL;
-                $preparedStatement = $mysqli->prepare("SELECT * FROM ? WHERE 1=1 AND username = '?' AND password = '?'");
-                $preparedStatement->bind_param('sss', "user", $array->username, $array->password);
+                $aTest = NULL;
+                $preparedStatement = $sql->prepare("SELECT * FROM user WHERE 1=1 AND username = ? AND password = ?");
+                $preparedStatement->bind_param('ss', $array['username'], $array['password']);
                 $preparedStatement->execute();
                 $preparedStatement->store_result();
-                if ($preparedStatement->num_rows > 0) {
-                    $resultSet = mysqli_fetch_array($preparedStatement, MYSQLI_ASSOC);
-                    $oBean = new UserBean();
-                    $oBean->construct($resultSet);
+                $rows = $preparedStatement->num_rows;
+                if ($rows > 0) {
+                    $meta = $preparedStatement->result_metadata();
+                    while ($field = $meta->fetch_field()) {
+                        $params[] = &$row[$field->name];
+                    }
+                    call_user_func_array(array($preparedStatement, 'bind_result'), $params);
+                    while ($preparedStatement->fetch()) {
+                        foreach ($row as $key => $val) {
+                            $c[$key] = $val;
+                        }
+                        $aTest = $c;
+                    }
+
+                    $aResponse = $aTest;
                 } else {
                     throw new Exception();
                 }
@@ -123,7 +142,7 @@ class userDao implements DaoTableInterface, DaoViewInterface {
         } else {
             throw new Exception();
         }
-        return $oBean;
+        return $aResponse;
     }
 
     public function getCount($alFilter) {
@@ -136,7 +155,6 @@ class userDao implements DaoTableInterface, DaoViewInterface {
                 $preparedStatement->bind_param('s', "user");
                 $preparedStatement->execute();
                 $preparedStatement->store_result();
-                
             } catch (Exception $ex) {
                 throw new Exception($ex->getMessage());
             } finally {
