@@ -11,10 +11,10 @@
             <br>
             <hr>
             <br>
-            <form id="getTesting">
+            <form id="removeTesting">
                 <input type="number" id="id" required autofocus name="id">
             </form>
-            <button type="submit" id="testGet">Test Get</button>
+            <button type="submit" id="testRemove">Remove Get</button>
             <br>
             <hr>
             <br>
@@ -39,9 +39,9 @@
                 return o;
             };
             $(document).ready(function () {
-                $("#testGet").click(function () {
-                    values = $("#getTesting").serializeObject();
-                    data = {"ob": "user", "op": "get", "json": JSON.stringify(values)};
+                $("#testRemove").click(function () {
+                    values = $("#removeTesting").serializeObject();
+                    data = {"ob": "user", "op": "remove", "json": JSON.stringify(values)};
                     $.ajax({
                         type: "POST",
                         url: "http://127.0.0.1:8080/fanlist/controller/Controller.php?XDEBUG_SESSION_START=netbeans-xdebug",
@@ -49,18 +49,7 @@
                         dataType: "json",
                         success: function (data) {
                             if (data.status == 200) {
-                                $("#response").empty().append("ID:" + data.json.id + "<br>");
-                                $("#response").append("Name:" + data.json.name + "<br>");
-                                $("#response").append("Mail:" + data.json.mail + "<br>");
-                                $("#response").append("Username:" + data.json.username + "<br>");
-                                $("#response").append("Password:" + data.json.password + "<br>");
-                                $("#response").append("Url:" + data.json.url + "<br>");
-                                $("#response").append("Profile pic:" + data.json.profile_pic + "<br>");
-                                $("#response").append("Custom Field 1:" + data.json.custom_field1 + "<br>");
-                                $("#response").append("Custom Field 2:" + data.json.custom_field2 + "<br>");
-                                $("#response").append("Custom Field 3:" + data.json.custom_field3 + "<br>");
-                                $("#response").append("Custom Field 4:" + data.json.custom_field4 + "<br>");
-                                $("#response").append("Custom Field 5:" + data.json.custom_field5 + "<br>");
+                                $("#response").empty().append(data.json.id);
                             } else {
                                 console.log("Error servidor get")
                             }

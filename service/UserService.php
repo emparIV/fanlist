@@ -47,7 +47,7 @@ class UserService implements ServiceTableInterface, ServiceViewInterface {
 
     public function get($json) {
         if ($this->checkPermission()) {
-            $json['id'];
+            $id = $json['id'];
             try {
                 $oDao = new userDao();
                 $oResult = $oDao->get($id);
@@ -78,6 +78,23 @@ class UserService implements ServiceTableInterface, ServiceViewInterface {
         }
         
     }
+    
+    public function remove($json) {
+        if ($this->checkPermission()) {
+            $id = $json['id'];
+            try {
+                $oDao = new userDao();
+                $oResult = $oDao->remove($id);
+                $aResult = ["status" => 200, "json" => $oResult];
+            } catch (Exception $ex) {
+                throw new Exception($ex->getMessage());
+            }
+            return $aResult;
+        } else {
+            $aResult = ["status" => 401, "json" => "Unauthorized operation"];
+            return $aResult;
+        }
+    }
 
     public function getCount() {
         
@@ -87,9 +104,7 @@ class UserService implements ServiceTableInterface, ServiceViewInterface {
         
     }
 
-    public function remove() {
-        
-    }
+    
 
     
 

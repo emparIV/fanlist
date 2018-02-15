@@ -6,6 +6,6 @@
  */
 interface ServiceTableInterface {
     public function set($json);
-    public function get();
-    public function remove();
+    public function get($json);
+    public function remove($json);
 }

@@ -12,6 +12,7 @@
             <hr>
             <br>
             <form id="setTesting">
+                <input type="number" id="id" autofocus name="id"><br>
                 <input type="text" id="name" placeholder="Name" name="name"><br>
                 <input type="text" id="mail" placeholder="Mail" name="mail"><br>
                 <input type="text" id="username" placeholder="Username" required name="username"><br>
@@ -49,6 +50,33 @@
             return o;
         };
         $(document).ready(function () {
+            data = {"ob": "user", "op": "get", "json": '{"id" : "2"}'};
+                    $.ajax({
+                        type: "POST",
+                        url: "http://127.0.0.1:8080/fanlist/controller/Controller.php?XDEBUG_SESSION_START=netbeans-xdebug",
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.status == 200) {
+                                $("#id").empty().val(data.json.id);
+                                $("#name").empty().val(data.json.name);
+                                $("#mail").empty().val(data.json.mail);
+                                $("#username").empty().val(data.json.username);
+                                $("#url").empty().val(data.json.url);
+                                $("#profile_pic").empty().val(data.json.profile_pic);
+                                $("#custom_field1").empty().val(data.json.custom_field1);
+                                $("#custom_field2").empty().val(data.json.custom_field2);
+                                $("#custom_field3").empty().val(data.json.custom_field3);
+                                $("#custom_field4").empty().val(data.json.custom_field4);
+                                $("#custom_field5").empty().val(data.json.custom_field5);
+                            } else {
+                                console.log("Error servidor get")
+                            }
+                        },
+                        error: function (data) {
+                            console.log("Error cliente get");
+                        }
+                    });
             $("#testSet").click(function () {
                 values = $("#setTesting").serializeObject();
                 values.password = forge_sha256($("#password").val());
