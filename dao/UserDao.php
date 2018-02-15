@@ -17,8 +17,8 @@ class UserDao implements DaoTableInterface, DaoViewInterface {
             try {
                 $sql = $connection->getConnection();
                 $aTest = NULL;
-                $preparedStatement = $mysqli->prepare("SELECT * FROM ? WHERE 1=1 AND id= ?");
-                $preparedStatement->bind_param('si', "user", $id);
+                $preparedStatement = $sql->prepare("SELECT * FROM user WHERE 1=1 AND id= ?");
+                $preparedStatement->bind_param('i', $id);
                 $preparedStatement->execute();
                 $preparedStatement->store_result();
                 $rows = $preparedStatement->num_rows;
@@ -52,40 +52,43 @@ class UserDao implements DaoTableInterface, DaoViewInterface {
         return $aResponse;
     }
 
-    public function set($bean) {
-     if ($this->conexion) {
+    public function set($array) {
+        $connection = new ConnectionHelper();
+        if ($connection->checkConnection()) {
             $iResult = 0;
             try {
                 $insert = TRUE;
-                if ($bean->id == NULL) {
-                    $preparedStatement = $mysqli->prepare("INSERT INTO ?"
+                if ($array['id'] == NULL) {
+                    $sql = $connection->getConnection();
+                    $aTest = NULL;
+                    $preparedStatement = $sql->prepare("INSERT INTO user "
                             . "(name, mail, username, password, url, profile_pic, custom_field1, "
                             . "custom_field2, custom_field3, custom_field4, custom_field5) VALUES( "
-                            ."?,?,?,?,?,?,?,?,?,?,?,)");
-                    $preparedStatement->bind_param('ssssssssssss', "user", $bean->name, 
-                            $bean->mail, $bean->username, $bean->password, $bean->url, 
-                            $bean->profile_pic, $bean->custom_field1, $bean->custom_field2, 
-                            $bean->custom_field3, $bean->custom_field4, $bean->custom_field5);
+                            . "?,?,?,?,?,?,?,?,?,?,?)");
+                    $preparedStatement->bind_param('sssssssssss', $array['name'], $array['mail'], 
+                            $array['username'], $array['password'], $array['url'], $array['profile_pic'], 
+                            $array['custom_field1'], $array['custom_field2'], $array['custom_field3'], 
+                            $array['custom_field4'], $array['custom_field5']);
                     $preparedStatement->execute();
-                    $preparedStatement->store_result();                    
+                    $preparedStatement->store_result();
                 } else {
                     $insert = FALSE;
-                    $preparedStatement = $mysqli->prepare("UPDATE ? SET "
+                    $preparedStatement = $sql->prepare("UPDATE user SET "
                             . "name = ?, mail = ?, username = ?, password = ?, url = ?, profile_pic = ?, "
                             . "custom_field1 = ?, custom_field2 = ?, custom_field3 = ?, custom_field4 =?,"
                             . " custom_field5 WHERE id = ? ");
-                    $preparedStatement->bind_param('ssssssssssssi', "user", $bean->name, 
-                            $bean->mail, $bean->username, $bean->password, $bean->url, 
-                            $bean->profile_pic, $bean->custom_field1, $bean->custom_field2, 
-                            $bean->custom_field3, $bean->custom_field4, $bean->custom_field5, $bean->id);
+                    $preparedStatement->bind_param('sssssssssss', $array['name'], $array['mail'], 
+                            $array['username'], $array['password'], $array['url'], $array['profile_pic'], 
+                            $array['custom_field1'], $array['custom_field2'], $array['custom_field3'], 
+                            $array['custom_field4'], $array['custom_field5']);
                     $preparedStatement->execute();
                     $preparedStatement->store_result();
-    }
-                if ($preparedStatement->num_rows < 0) {                    
+                }
+                if ($preparedStatement->num_rows < 0) {
                     throw new Exception();
                 }
                 if ($insert) {
-                    $iResult = $mysqli->insert_id;
+                    $iResult = $sql->insert_id;
                 }
             } catch (Exception $ex) {
                 throw new Exception($ex->getMessage());
@@ -151,7 +154,7 @@ class UserDao implements DaoTableInterface, DaoViewInterface {
             $query += $SqlHelper->buildSqlFilter($alFilter);
             try {
                 $resultSet = NULL;
-                $preparedStatement = $mysqli->prepare($query);
+                $preparedStatement = $sql->prepare($query);
                 $preparedStatement->bind_param('s', "user");
                 $preparedStatement->execute();
                 $preparedStatement->store_result();

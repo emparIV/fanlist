@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+    <head>
+        <meta charset="utf-8">
+        <script src="//code.jquery.com/jquery-latest.js"></script>
+        <script src="js/forge-sha256.min.js"></script>
+    </head>
+    <body>
+        <div id="content">
+            <button type="submit" id="logOut">Cerrar Sesión</button>
+            <br>
+            <hr>
+            <br>
+            <form id="setTesting">
+                <input type="number" id="id" autofocus name="id">
+                <input type="text" id="name" placeholder="Name" name="name">
+                <input type="text" id="mail" placeholder="Mail" name="mail">
+                <input type="text" id="username" placeholder="Username" required name="username">
+                <input type="password" id="password" placeholder="Password" required name="password">
+                <input type="text" id="url" placeholder="URL" name="url">
+                <input type="text" id="profile_pic" placeholder="ProfilePic" name="profilepic">
+                <input type="text" id="custom_field1" placeholder="CustomField1" name="custom_field1">
+                <input type="text" id="custom_field2" placeholder="CustomField2" name="custom_field2">
+                <input type="text" id="custom_field3" placeholder="CustomField3" name="custom_field3">
+                <input type="text" id="custom_field4" placeholder="CustomField4" name="custom_field4">
+                <input type="text" id="custom_field5" placeholder="CustomField5" name="custom_field5">
+            </form>
+            <button type="submit" id="testSet">Test Set/Update</button>
+            <br>
+            <hr>
+            <br>
+            <div id="response"></div>
+        </div>
+    <script>
+        $.fn.serializeObject = function ()
+        {
+            // http://jsfiddle.net/davidhong/gP9bh/
+            var o = {};
+            var a = this.serializeArray();
+            $.each(a, function () {
+                if (o[this.name] !== undefined) {
+                    if (!o[this.name].push) {
+                        o[this.name] = [o[this.name]];
+                    }
+                    o[this.name].push(this.value || '');
+                } else {
+                    o[this.name] = encodeURIComponent(this.value) || '';
+                }
+            });
+            return o;
+        };
+        $(document).ready(function () {
+            $("#logOut").click(function () {
+                datos = {"ob": "user", "op": "logout", "json": JSON.stringify(valores)};
+                $.ajax({
+                    type: "POST",
+                    url: "http://127.0.0.1:8080/fanlist/controller/Controller.php?XDEBUG_SESSION_START=netbeans-xdebug",
+                    data: datos,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status == 200) {
+                            $("#content").append("Sesión Cerrada");
+                        } else {
+                            console.log("Error servidor logout")
+                        }
+                    },
+                    error: function (data) {
+                        alert("Error cliente logout");
+                    }
+                });
+            })
+            $("#testSet").click(function () {
+                valoresSet = $("#setTesting").serializeObject();
+                valoresSet.passwordSet = forge_sha256($("#passwordSet").val());
+                datosSet = {"ob": "user", "op": "set", "json": JSON.stringify(valoresSet)};
+                $.ajax({
+                    type: "POST",
+                    url: "http://127.0.0.1:8080/fanlist/controller/Controller.php?XDEBUG_SESSION_START=netbeans-xdebug",
+                    data: datosSet,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status == 200) {
+                            $("#response").empty().append(data.json);
+                        } else {
+                            console.log("Error servidor set")
+                        }
+                    },
+                    error: function (data) {
+                        console.log("Error cliente set");
+                    }
+                });
+            })
+        });
+    </script>
+
+</body>
+</html>

@@ -1,4 +1,7 @@
 <?php
+
+session_start();
+
 require '../config/database.php';
 require '../helper/ConnectionHelper.php';
 require '../helper/FilterBeanHelper.php';
@@ -10,8 +13,6 @@ require '../service/ServiceTableInterface.php';
 require '../service/ServiceViewInterface.php';
 require '../service/UserService.php';
 require '../helper/MappingHelper.php';
-
-session_start();
 
 function jsonHeader($code = 200) {
     header('Content-Type: application/json; charset=utf-8', true, $code);

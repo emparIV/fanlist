@@ -3,19 +3,30 @@
     <head>
         <meta charset="utf-8">
         <script src="//code.jquery.com/jquery-latest.js"></script>
-        <script src="js/login.js"></script>
         <script src="js/forge-sha256.min.js"></script>
     </head>
     <body>
-        <form id="access">
-            <input type="text" id="username" placeholder="Username" required autofocus name="username">
-            <input type="password" id="password" placeholder="Password" required autofocus name="password">
-        </form>
-        <button type="submit" id="sendLogin">Login</button>
-        <div id="loggedUser">
-            <h3>Sesión iniciada, <span id="user"></span> con email <span id="email"></span>. Este id sale al usar el get:<span id="id"></span></h3>
+        <div id="content">
+            <form id="access">
+                <input type="text" id="username" placeholder="Username" required autofocus name="username">
+                <input type="password" id="password" placeholder="Password" required autofocus name="password">
+            </form>
+            <button type="submit" id="sendLogin">Login</button>
+            <div id="loggedUser">
+                <button type="submit" id="logOut">Cerrar Sesión</button>
+                <br>
+                <hr>
+                <br>
+                <h3>Sesión iniciada, <span id="user"></span> con email <span id="email"></span></h3>
+               
+                <div id="response"></div>
+            </div>
+
+
+
+
         </div>
-        <button type="submit" id="tryGet">Get</button>
+
         <script>
             $.fn.serializeObject = function ()
             {
@@ -36,14 +47,13 @@
             };
             $(document).ready(function () {
                 $("#loggedUser").hide();
-                $("#tryGet").hide();
                 $("#sendLogin").click(function () {
                     valores = $("#access").serializeObject();
                     valores.password = forge_sha256($("#password").val());
                     datos = {"ob": "user", "op": "login", "json": JSON.stringify(valores)};
                     $.ajax({
                         type: "POST",
-                        url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                        url: "http://127.0.0.1:8080/fanlist/controller/Controller.php?XDEBUG_SESSION_START=netbeans-xdebug",
                         data: datos,
                         dataType: "json",
                         success: function (data) {
@@ -53,17 +63,16 @@
                                 $("#loggedUser").show();
                                 $("#tryGet").show();
                             } else {
-                                alert("Error")
+                                console.log("Error server login")
                             }
                         },
                         error: function (data) {
-                            alert("Error");
+                            alert("Error cliente login");
                         }
                     });
                 })
-                
-                $("#tryGet").click(function () {
-                    datos = {"ob": "user", "op": "get", "json": JSON.stringify(valores)};
+                $("#logOut").click(function () {
+                    datos = {"ob": "user", "op": "logout", "json": JSON.stringify(valores)};
                     $.ajax({
                         type: "POST",
                         url: "http://127.0.0.1:8080/fanlist/controller/Controller.php?XDEBUG_SESSION_START=netbeans-xdebug",
@@ -72,12 +81,14 @@
                         success: function (data) {
                             if (data.status == 200) {
                                 $("#id").empty().append(data.json.id);
+                                $("#loggedUser").hide();
+                                $("#content").append("Sesión Cerrada");
                             } else {
-                                alert("Error")
+                                console.log("Error servidor logout")
                             }
                         },
                         error: function (data) {
-                            alert("Error");
+                            alert("Error cliente logout");
                         }
                     });
                 })
