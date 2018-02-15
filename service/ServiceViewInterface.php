@@ -6,5 +6,5 @@
  */
 interface ServiceViewInterface {
     public function getCount();
-    public function getPage();
+    public function getPage($json);
 }

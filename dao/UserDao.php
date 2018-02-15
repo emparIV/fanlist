@@ -10,7 +10,7 @@ class UserDao implements DaoTableInterface, DaoViewInterface {
     public function construct() {
         
     }
-    
+
     public function getFromLoginAndPass($array) {
         $connection = new ConnectionHelper();
         if ($connection->checkConnection()) {
@@ -96,6 +96,7 @@ class UserDao implements DaoTableInterface, DaoViewInterface {
     public function set($array) {
         $connection = new ConnectionHelper();
         if ($connection->checkConnection()) {
+            $response = NULL;
             $iResult = 0;
             try {
                 $insert = TRUE;
@@ -105,12 +106,11 @@ class UserDao implements DaoTableInterface, DaoViewInterface {
                             . "(name, mail, username, password, url, profile_pic, custom_field1, "
                             . "custom_field2, custom_field3, custom_field4, custom_field5) VALUES( "
                             . "?,?,?,?,?,?,?,?,?,?,?)");
-                    $preparedStatement->bind_param('sssssssssss', $array['name'], $array['mail'], 
-                            $array['username'], $array['password'], $array['url'], $array['profile_pic'], 
-                            $array['custom_field1'], $array['custom_field2'], $array['custom_field3'], 
-                            $array['custom_field4'], $array['custom_field5']);
+                    $preparedStatement->bind_param('sssssssssss', $array['name'], $array['mail'], $array['username'], $array['password'], $array['url'], $array['profile_pic'], $array['custom_field1'], $array['custom_field2'], $array['custom_field3'], $array['custom_field4'], $array['custom_field5']);
                     $preparedStatement->execute();
                     $preparedStatement->store_result();
+                    $preparedStatement->bind_result($response);
+                    $preparedStatement->fetch();
                 } else {
                     $insert = FALSE;
                     $sql = $connection->getConnection();
@@ -118,12 +118,11 @@ class UserDao implements DaoTableInterface, DaoViewInterface {
                             . "name = ?, mail = ?, username = ?, password = ?, url = ?, profile_pic = ?, "
                             . "custom_field1 = ?, custom_field2 = ?, custom_field3 = ?, custom_field4 = ?,"
                             . " custom_field5 = ? WHERE id = ? ");
-                    $preparedStatement->bind_param('sssssssssssi', $array['name'], $array['mail'], 
-                            $array['username'], $array['password'], $array['url'], $array['profile_pic'], 
-                            $array['custom_field1'], $array['custom_field2'], $array['custom_field3'], 
-                            $array['custom_field4'], $array['custom_field5'], $array["id"]);
+                    $preparedStatement->bind_param('sssssssssssi', $array['name'], $array['mail'], $array['username'], $array['password'], $array['url'], $array['profile_pic'], $array['custom_field1'], $array['custom_field2'], $array['custom_field3'], $array['custom_field4'], $array['custom_field5'], $array["id"]);
                     $preparedStatement->execute();
                     $preparedStatement->store_result();
+                    $preparedStatement->bind_result($response);
+                    $preparedStatement->fetch();
                 }
                 if ($preparedStatement->num_rows < 0) {
                     throw new Exception();
@@ -141,19 +140,21 @@ class UserDao implements DaoTableInterface, DaoViewInterface {
         } else {
             throw new Exception();
         }
-        return $iResult;
+        return $response;
     }
 
     public function remove($id) {
         $connection = new ConnectionHelper();
         if ($connection->checkConnection()) {
             try {
+                $aResponse = NULL;
                 $sql = $connection->getConnection();
                 $preparedStatement = $sql->prepare("DELETE FROM user WHERE 1=1 AND id = ?");
                 $preparedStatement->bind_param('s', $id);
                 $preparedStatement->execute();
                 $preparedStatement->store_result();
-                $aResponse = $preparedStatement;
+                $preparedStatement->bind_result($aResponse);
+                $preparedStatement->fetch();
             } catch (Exception $ex) {
                 throw new Exception($ex->getMessage());
             } finally {
@@ -165,19 +166,20 @@ class UserDao implements DaoTableInterface, DaoViewInterface {
             throw new Exception();
         }
         return $aResponse;
-        
     }
 
-    public function getCount($alFilter) {
-        if ($this->conexion) {
-            $query = "SELECT COUNT(*) FROM ? WHERE 1=1 ";
-            $query += $SqlHelper->buildSqlFilter($alFilter);
+    public function getCount() {
+        $connection = new ConnectionHelper();
+        if ($connection->checkConnection()) {
             try {
-                $resultSet = NULL;
-                $preparedStatement = $sql->prepare($query);
-                $preparedStatement->bind_param('s', "user");
+                $aResponse = NULL;
+                $sql = $connection->getConnection();
+                $preparedStatement = $sql->prepare("SELECT COUNT(*) FROM user WHERE 1= ? ");
+                $preparedStatement->bind_param('i', $a = 1);
                 $preparedStatement->execute();
                 $preparedStatement->store_result();
+                $preparedStatement->bind_result($aResponse);
+                $preparedStatement->fetch();
             } catch (Exception $ex) {
                 throw new Exception($ex->getMessage());
             } finally {
@@ -188,11 +190,51 @@ class UserDao implements DaoTableInterface, DaoViewInterface {
         } else {
             throw new Exception();
         }
-        return $iResult;
+        return $aResponse;
     }
 
-    public function getPage($regsPerPage, $page, $alOrder, $alFilter) {
-        
+    public function getPage($np, $rpp) {
+        $connection = new ConnectionHelper();
+        if ($connection->checkConnection()) {
+            try {
+                $oSqlHelper = new SqlHelper;
+                $total = $this->getCount();
+                $query = "SELECT * FROM user WHERE 1 = ? ";
+                $query .= $oSqlHelper->buildSqlLimit($total, $np, $rpp);
+                $sql = $connection->getConnection();
+                $aTest = NULL;
+                $preparedStatement = $sql->prepare($query);
+                $preparedStatement->bind_param('i', $a = 1);
+                $preparedStatement->execute();
+                $preparedStatement->store_result();
+                $rows = $preparedStatement->num_rows;
+                if ($rows > 0) {
+                    $meta = $preparedStatement->result_metadata();
+                    while ($field = $meta->fetch_field()) {
+                        $params[] = &$row[$field->name];
+                    }
+                    call_user_func_array(array($preparedStatement, 'bind_result'), $params);
+                    while ($preparedStatement->fetch()) {
+                        foreach ($row as $key => $val) {
+                            $c[$key] = $val;
+                        }
+                        $aTest = $c;
+                    }
+                    $aResponse = $aTest;
+                } else {
+                    throw new Exception();
+                }
+            } catch (Exception $ex) {
+                throw new Exception($ex->getMessage());
+            } finally {
+                if ($preparedStatement !== NULL) {
+                    $preparedStatement->close();
+                }
+            }
+        } else {
+            throw new Exception();
+        }
+        return $aResponse;
     }
 
 }

@@ -6,18 +6,17 @@
  *
  * @author Empar Ibáñez
  */
-class sqlHelper {
-    public function buildSqlLimit($totalRegs, $regsPerPage, $pageNumber) {
+class SqlHelper {
+    public function buildSqlLimit($total, $np, $rpp ) {
         $SQLLimit = "";
-        if ($regsPerPage > 0 && $regsPerPage < 10000) {
-            if ($pageNumber > 0 && $intPageNumber <= (ceil(($totalRegs / $regsPerPage) + 1))) {
-                $SQLLimit = " LIMIT " . ($pageNumber - 1) * $regsPerPage . " , " . $regsPerPage;
+        if ($rpp > 0 && $rpp < 10000) {
+            if ($np > 0 && $np <= (ceil(($total / $rpp) + 1))) {
+                $SQLLimit = " LIMIT " . ($np - 1) * $rpp . " , " . $rpp;
             } else {
                 $SQLLimit = " LIMIT 0 ";
             }
         }
         return $SQLLimit;
-        
     }
     
     public function buildSqlOrder($array) {

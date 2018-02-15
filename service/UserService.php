@@ -97,10 +97,38 @@ class UserService implements ServiceTableInterface, ServiceViewInterface {
     }
 
     public function getCount() {
+        if ($this->checkPermission()) {
+            try {
+                $oDao = new userDao();
+                $oResult = $oDao->getCount();
+                $aResult = ["status" => 200, "json" => $oResult];
+            } catch (Exception $ex) {
+                throw new Exception($ex->getMessage());
+            }
+            return $aResult;
+        } else {
+            $aResult = ["status" => 401, "json" => "Unauthorized operation"];
+            return $aResult;
+        }
         
     }
 
-    public function getPage() {
+    public function getPage($json) {
+        if ($this->checkPermission()) {
+            $np = $json['np'];
+            $rpp = $json['rpp'];
+            try {
+                $oDao = new userDao();
+                $oResult = $oDao->getPage($np, $rpp);
+                $aResult = ["status" => 200, "json" => $oResult];
+            } catch (Exception $ex) {
+                throw new Exception($ex->getMessage());
+            }
+            return $aResult;
+        } else {
+            $aResult = ["status" => 401, "json" => "Unauthorized operation"];
+            return $aResult;
+        }
         
     }
 

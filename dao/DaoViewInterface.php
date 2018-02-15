@@ -5,6 +5,6 @@
  * @author Empar
  */
 interface DaoViewInterface {
-    public function getCount($bean);
-    public function getPage($regsPerPage, $page, $alOrder, $alFilter);
+    public function getCount();
+    public function getPage($regsPerPage, $page);
 }

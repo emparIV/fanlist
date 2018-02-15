@@ -30,7 +30,7 @@ class MappingHelper {
                         $aResult = $oUserService->remove($json);
                         break;
                     case "getCount":
-                        $aResult = $oUserService->getCount($json);
+                        $aResult = $oUserService->getCount();
                         break;
                     case "getPage":
                         $aResult = $oUserService->getPage($json);
