@@ -50,18 +50,21 @@
                         dataType: "json",
                         success: function (data) {
                             if (data.status == 200) {
-                                $("#response").empty().append("ID:" + data.json.id + "<br>");
-                                $("#response").append("Name:" + data.json.name + "<br>");
-                                $("#response").append("Mail:" + data.json.mail + "<br>");
-                                $("#response").append("Username:" + data.json.username + "<br>");
-                                $("#response").append("Password:" + data.json.password + "<br>");
-                                $("#response").append("Url:" + data.json.url + "<br>");
-                                $("#response").append("Profile pic:" + data.json.profile_pic + "<br>");
-                                $("#response").append("Custom Field 1:" + data.json.custom_field1 + "<br>");
-                                $("#response").append("Custom Field 2:" + data.json.custom_field2 + "<br>");
-                                $("#response").append("Custom Field 3:" + data.json.custom_field3 + "<br>");
-                                $("#response").append("Custom Field 4:" + data.json.custom_field4 + "<br>");
-                                $("#response").append("Custom Field 5:" + data.json.custom_field5 + "<br>");
+                                for (i = 0; i < data.json.length; i++) {
+                                    $("#response").append("ID:" + data.json[i].id + "<br>");
+                                    $("#response").append("Name:" + data.json[i].name + "<br>");
+                                    $("#response").append("Mail:" + data.json[i].mail + "<br>");
+                                    $("#response").append("Username:" + data.json[i].username + "<br>");
+                                    $("#response").append("Password:" + data.json[i].password + "<br>");
+                                    $("#response").append("Url:" + data.json[i].url + "<br>");
+                                    $("#response").append("Profile pic:" + data.json[i].profile_pic + "<br>");
+                                    $("#response").append("Custom Field 1:" + data.json[i].custom_field1 + "<br>");
+                                    $("#response").append("Custom Field 2:" + data.json[i].custom_field2 + "<br>");
+                                    $("#response").append("Custom Field 3:" + data.json[i].custom_field3 + "<br>");
+                                    $("#response").append("Custom Field 4:" + data.json[i].custom_field4 + "<br>");
+                                    $("#response").append("Custom Field 5:" + data.json[i].custom_field5 + "<br>");
+                                    $("#response").append("<hr><br>");
+                                }
                             } else {
                                 console.log("Error servidor get")
                             }

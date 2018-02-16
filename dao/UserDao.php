@@ -203,6 +203,7 @@ class UserDao implements DaoTableInterface, DaoViewInterface {
                 $query .= $oSqlHelper->buildSqlLimit($total, $np, $rpp);
                 $sql = $connection->getConnection();
                 $aTest = NULL;
+                $aResponse = array();
                 $preparedStatement = $sql->prepare($query);
                 $preparedStatement->bind_param('i', $a = 1);
                 $preparedStatement->execute();
@@ -214,13 +215,14 @@ class UserDao implements DaoTableInterface, DaoViewInterface {
                         $params[] = &$row[$field->name];
                     }
                     call_user_func_array(array($preparedStatement, 'bind_result'), $params);
+
                     while ($preparedStatement->fetch()) {
                         foreach ($row as $key => $val) {
                             $c[$key] = $val;
                         }
                         $aTest = $c;
+                        array_push($aResponse, $aTest);
                     }
-                    $aResponse = $aTest;
                 } else {
                     throw new Exception();
                 }
