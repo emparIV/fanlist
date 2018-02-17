@@ -1,6 +1,4 @@
-<?php
-
-session_start();
+<?php session_start();
 
 require '../config/database.php';
 require '../helper/ConnectionHelper.php';

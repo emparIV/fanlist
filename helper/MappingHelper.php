@@ -35,6 +35,38 @@ class MappingHelper {
                     case "getPage":
                         $aResult = $oUserService->getPage($json);
                         break;
+                    case "checkLogin":
+                        $aResult = $oUserService->checkLogin();
+                        break;
+                }
+                break;
+            case "member":
+                $oMemberService = new MemberService();
+                switch ($op) {
+                    case "login":
+                        $aResult = $oMemberService->login($json);
+                        break;
+                    case "logout":
+                        $aResult = $oMemberService->logout($json);
+                        break;
+                    case "get":
+                        $aResult = $oMemberService->get($json);
+                        break;
+                    case "set":
+                        $aResult = $oMemberService->set($json);
+                        break;
+                    case "remove":
+                        $aResult = $oMemberService->remove($json);
+                        break;
+                    case "getCount":
+                        $aResult = $oMemberService->getCount();
+                        break;
+                    case "getPage":
+                        $aResult = $oMemberService->getPage($json);
+                        break;
+                    case "checkLogin":
+                        $aResult = $oMemberService->checkLogin();
+                        break;
                 }
                 break;
             default:

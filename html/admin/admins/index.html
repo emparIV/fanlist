@@ -2,11 +2,11 @@
 <html lang="es-ES">
     <head>
         <meta charset="utf-8">
-        <link href="style.css" rel="stylesheet" type="text/css"/>
+        <link href="../style.css" rel="stylesheet" type="text/css"/>
         <script src="//code.jquery.com/jquery-latest.js"></script>
-        <script src="js/forge-sha256.min.js"></script>
+        <script src="../js/forge-sha256.min.js"></script>
         <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
-        <title>Admin Login</title>
+        <title>Admin Page - Administrators management</title>
     </head>
     <body>
         <div class="wrapper" id="index">
@@ -18,7 +18,7 @@
                                 <div class="table">
                                     <div class="row">
                                         <div class="cell half middle">
-                                            <img src="img/Idego_logo.png" alt="" id="logo"/>
+                                            <img src="../img/Idego_logo.png" alt="" id="logo"/>
                                         </div>
                                         <div class="cell half middle">
                                             <h1>Admin Login</h1>
@@ -68,15 +68,21 @@
                                         </div>
                                         <div class="cell two_third top">
                                             <div class="main">
-                                                <h1>Stats</h1>
-                                                <div class="stats">
-                                                    <ul>
-                                                        <li>Number of members: <span id="members"></span></li>
-                                                        <li>Number of admins: <span id="admins"></span></li>
-                                                        <li>Number of news posted: <span id="news"></span></li>
-                                                        <li>Number of commens: <span id="commenst"></span></li>
-                                                    </ul>
-                                                </div>
+                                                <h1>Admins</h1>
+                                                <form id="getPageForm">
+                                                    Page: <input type="number" id="np" required autofocus name="np">
+                                                    Users per page: <input type="number" id="rpp" required autofocus name="rpp">
+                                                </form>
+                                                <button type="submit" id="getPage">Test GetPage</button>
+                                                <table cellpadding="0" cellspacing="0" border="0" id="admins">
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <th>Username</th>
+                                                        <th>Email</th>
+                                                        <th>URL</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </table>
                                             </div>
                                         </div>
                                     </div>
@@ -137,6 +143,47 @@
                         console.log("Error cliente login");
                     }
                 });
+                    data2 = {"ob": "user", "op": "getPage", "json": '{"np":"1", "rpp":"10"}'};
+                    $.ajax({
+                        type: "POST",
+                        url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                        data: data2,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.status == 200) {
+                                for (i = 0; i < data.json.length; i++) {
+                                    $("#admins").append("<tr><td>" + data.json[i].name + "</td><td>" + data.json[i].mail + "</td><td>" + data.json[i].username + "</td><td><a href='" + data.json[i].url + "'>" + data.json[i].url + "</a></td><td><i class=\"fas fa-eye\"></i> <i class=\"fas fa-pencil-alt\"></i> <i class=\"fas fa-trash-alt\"></i></td></tr>");
+                                }
+                            } else {
+                                console.log("Error servidor get")
+                            }
+                        },
+                        error: function (data) {
+                            console.log("Error cliente get");
+                        }
+                    });
+                $("#GetPage").click(function () {
+                    values = $("#getPageForm").serializeObject();
+                    data = {"ob": "user", "op": "getPage", "json": JSON.stringify(values)};
+                    $.ajax({
+                        type: "POST",
+                        url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.status == 200) {
+                                for (i = 0; i < data.json.length; i++) {
+                                    $("#admins").append("<tr><td>" + data.json[i].name + "</td><td>" + data.json[i].mail + "</td><td>" + data.json[i].username + "</td><td><a href='" + data.json[i].url + "'>" + data.json[i].url + "</a></td><td><i class=\"fas fa-eye\"></i> <i class=\"fas fa-pencil-alt\"></i> <i class=\"fas fa-trash-alt\"></i></td></tr>");
+                                }
+                            } else {
+                                console.log("Error servidor get")
+                            }
+                        },
+                        error: function (data) {
+                            console.log("Error cliente get");
+                        }
+                    });
+                })
                 $("#login").click(function () {
                     values = $("#loginForm").serializeObject();
                     values.password = forge_sha256($("#password").val());

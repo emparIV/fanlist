@@ -3,11 +3,11 @@
 
 
 /**
- * Description of userService
+ * Description of MemberService
  *
  * @author Empar Ibáñez
  */
-class UserService implements ServiceTableInterface, ServiceViewInterface {
+class MemberService implements ServiceTableInterface, ServiceViewInterface {
     
     private function checkPermission() {
         if (isset($_SESSION[user])) {
@@ -29,7 +29,7 @@ class UserService implements ServiceTableInterface, ServiceViewInterface {
     public function login($json) {
         if (!($json['username']) == "" && !($json['password']) == "") {
             try {
-                $oDao = new UserDao();
+                $oDao = new MemberDao();
                 $oResult = $oDao->getFromLoginAndPass($json);
                 $_SESSION['user'] = $oResult;
                 $aResult = ["status" => 200, "json" => $oResult];
@@ -58,7 +58,7 @@ class UserService implements ServiceTableInterface, ServiceViewInterface {
         if ($this->checkPermission()) {
             $id = $json['id'];
             try {
-                $oDao = new userDao();
+                $oDao = new MemberDao();
                 $oResult = $oDao->get($id);
                 $aResult = ["status" => 200, "json" => $oResult];
             } catch (Exception $ex) {
@@ -74,7 +74,7 @@ class UserService implements ServiceTableInterface, ServiceViewInterface {
     public function set($json) {
         if ($this->checkPermission()) {
             try {
-                $oDao = new userDao();
+                $oDao = new MemberDao();
                 $oResult = $oDao->set($json);
                 $aResult = ["status" => 200, "json" => $oResult];
             } catch (Exception $ex) {
@@ -92,7 +92,7 @@ class UserService implements ServiceTableInterface, ServiceViewInterface {
         if ($this->checkPermission()) {
             $id = $json['id'];
             try {
-                $oDao = new userDao();
+                $oDao = new MemberDao();
                 $oResult = $oDao->remove($id);
                 $aResult = ["status" => 200, "json" => $oResult];
             } catch (Exception $ex) {
@@ -108,7 +108,7 @@ class UserService implements ServiceTableInterface, ServiceViewInterface {
     public function getCount() {
         if ($this->checkPermission()) {
             try {
-                $oDao = new userDao();
+                $oDao = new MemberDao();
                 $oResult = $oDao->getCount();
                 $aResult = ["status" => 200, "json" => $oResult];
             } catch (Exception $ex) {
@@ -127,7 +127,7 @@ class UserService implements ServiceTableInterface, ServiceViewInterface {
             $np = $json['np'];
             $rpp = $json['rpp'];
             try {
-                $oDao = new userDao();
+                $oDao = new MemberDao();
                 $oResult = $oDao->getPage($np, $rpp);
                 $aResult = ["status" => 200, "json" => $oResult];
             } catch (Exception $ex) {
