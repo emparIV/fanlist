@@ -10,32 +10,6 @@
     </head>
     <body>
         <div class="wrapper" id="index">
-            <div class="table" id="loginUser">
-                <div class="row">
-                    <div class="cell middle">
-                        <div class="container login">
-                            <div class="content">
-                                <div class="table">
-                                    <div class="row">
-                                        <div class="cell half middle">
-                                            <img src="../img/Idego_logo.png" alt="" id="logo"/>
-                                        </div>
-                                        <div class="cell half middle">
-                                            <h1>Admin Login</h1>
-                                            <form id="loginForm">
-                                                <input type="text" id="username" placeholder="Username" required autofocus name="username">
-                                                <input type="password" id="password" placeholder="Password" required autofocus name="password">
-                                            </form>
-                                            <button type="submit" id="login"><i class="fas fa-sign-in-alt"></i> Login</button>
-                                            <div class="response"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="table" id="loggedUser">
                 <div class="row">
                     <div class="cell top">
@@ -58,31 +32,150 @@
                                             <div class="nav">
                                                 <h3><i class="fas fa-bars"></i> Navigation</h3>
                                                 <ul>
-                                                    <li><a href="members.php">Members</a></li>
-                                                    <li><a href="news.php">News</a></li>
-                                                    <li><a href="rules.php">Rules</a></li>
-                                                    <li><a href="admins.php">Admins</a></li>
-                                                    <li><a href="settings.php">Settings</a></li>
+                                                    <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
+                                                    <li><a href="../members/index.html"><i class="fas fa-users"></i> Members</a></li>
+                                                    <li><a href="../news/index.html"><i class="fas fa-newspaper"></i> News</a></li>
+                                                    <li><a href="../rules/index.html"><i class="fas fa-align-center"></i> Rules</a></li>
+                                                    <li><a href="../admins/index.html"><i class="fas fa-user"></i> Admins</a></li>
+                                                    <li><a href="../settings/index.html"><i class="fas fa-cogs"></i> Settings</a></li>
                                                 </ul>
                                             </div>
                                         </div>
                                         <div class="cell two_third top">
                                             <div class="main">
-                                                <h1>Admins</h1>
-                                                <form id="getPageForm">
-                                                    Page: <input type="number" id="np" required autofocus name="np">
-                                                    Users per page: <input type="number" id="rpp" required autofocus name="rpp">
-                                                </form>
-                                                <button type="submit" id="getPage">Test GetPage</button>
-                                                <table cellpadding="0" cellspacing="0" border="0" id="admins">
-                                                    <tr>
-                                                        <th>Name</th>
-                                                        <th>Username</th>
-                                                        <th>Email</th>
-                                                        <th>URL</th>
-                                                        <th></th>
-                                                    </tr>
-                                                </table>
+                                                <div class="table title">
+                                                    <div class="row">
+                                                        <div class="cell two_third top">
+                                                            <h1 id="pageName"><i class="fas fa-user"></i> Admins</h1>
+                                                        </div>
+                                                        <div class="cell third top">
+                                                            <button type="submit" id="showNewAdmin">New <i class="fas fa-plus-circle"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div id="getPageSection">
+                                                    <div class="filters">
+                                                        <form id="getPageForm">
+                                                            Page: <input type="number" id="np" required autofocus name="np">
+                                                            Users per page: <input type="number" id="rpp" required autofocus name="rpp">
+                                                        </form>
+                                                        <button type="submit" id="getPage">Apply <i class="fas fa-share-square"></i></button>
+                                                    </div>
+                                                    <table cellpadding="0" cellspacing="0" border="0" id="admins">
+                                                        <tr>
+                                                            <th>Name</th>
+                                                            <th>Username</th>
+                                                            <th>Email</th>
+                                                            <th>URL</th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+
+                                                <div id="setSection">
+                                                    <center>
+                                                        <form id="setForm">
+                                                            <input type="text" id="name" required autofocus placeholder="Name" name="name">
+                                                            <input type="email" id="mail" required autofocus placeholder="Email" name="mail">
+                                                            <input type="text" id="username" required autofocus placeholder="Username" name="username">
+                                                            <input type="text" id="password" required autofocus placeholder="Password" name="password">
+                                                            <input type="url" id="mail" autofocus placeholder="Site URL" name="url">
+                                                            <input type="url" id="profile_pic" autofocus placeholder="Profile Pic URL" name="profile_pic">
+                                                            <input type="text" id="custom_field1" placeholder="CustomField1" name="custom_field1">
+                                                            <input type="text" id="custom_field2" placeholder="CustomField2" name="custom_field2">
+                                                            <input type="text" id="custom_field3" placeholder="CustomField3" name="custom_field3">
+                                                            <input type="text" id="custom_field4" placeholder="CustomField4" name="custom_field4">
+                                                            <input type="text" id="custom_field5" placeholder="CustomField5" name="custom_field5">
+                                                        </form>
+                                                        <button type="submit" id="set">Register New Admin <i class="fas fa-user-plus"></i></button> <button type="submit" class="back">Back to Admins List <i class="fas fa-undo-alt"></i></button>
+                                                    </center>
+                                                </div>
+
+                                                <div id="setUpdateSection">
+                                                    <center>
+                                                        <form id="setUpdateForm">
+                                                            <div class="hiddenInput"><input type="number" id="idUpdate" required name="id"></div>
+                                                            <input type="text" id="nameUpdate" required autofocus placeholder="Name" name="name">
+                                                            <input type="email" id="mailUpdate" required autofocus placeholder="Email" name="mail">
+                                                            <input type="text" id="usernameUpdate" required autofocus placeholder="Username" name="username">
+                                                            <input type="text" id="passwordUpdate" required autofocus placeholder="Password" name="password">
+                                                            <input type="url" id="mailUpdate" autofocus placeholder="Site URL" name="url">
+                                                            <input type="url" id="profile_picUpdate" autofocus placeholder="Profile Pic URL" name="profile_pic">
+                                                            <input type="text" id="custom_field1Update" placeholder="CustomField1" name="custom_field1">
+                                                            <input type="text" id="custom_field2Update" placeholder="CustomField2" name="custom_field2">
+                                                            <input type="text" id="custom_field3Update" placeholder="CustomField3" name="custom_field3">
+                                                            <input type="text" id="custom_field4Update" placeholder="CustomField4" name="custom_field4">
+                                                            <input type="text" id="custom_field5Update" placeholder="CustomField5" name="custom_field5">
+                                                        </form>
+                                                        <button type="submit" id="setUpdate">Update <i class="fas fa-user-plus"></i></button> <button type="submit" class="back">Back to Admins List <i class="fas fa-undo-alt"></i></button>
+                                                    </center>
+                                                </div>
+
+                                                <div id="getSection">
+                                                    <div class="table">
+                                                        <div class="row">
+                                                            <div class="cell top two_third">
+                                                                <b>Name:</b> <span id="getName"></span><br>
+                                                                <b>eMail:</b> <span id="getMail"></span><br>
+                                                                <b>Username:</b> <span id="getUsername"></span><br>
+                                                                <b>Website:</b> <a href="#" id="getUrlLink"><span id="getUrl"></span></a><br>
+                                                                <b>Custom Field 1:</b> <span id="getCustomField1"></span><br>
+                                                                <b>Custom Field 2:</b> <span id="getCustomField2"></span><br>
+                                                                <b>Custom Field 3:</b> <span id="getCustomField3"></span><br>
+                                                                <b>Custom Field 4:</b> <span id="getCustomField4"></span><br>
+                                                                <b>Custom Field 5:</b> <span id="getCustomField5"></span>
+                                                            </div>
+                                                            <div class="cell top third">
+                                                                <div class="profile_pic">
+                                                                    <img src="../img/no_pic.jpg" id="getProfile_Pic">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <br><br>
+                                                    <div id="adminActions">
+                                                    </div>
+                                                </div>
+
+                                                <div id="removeSection">
+                                                    <div class="table">
+                                                        <div class="row">
+                                                            <div class="cell top two_third">
+                                                                <b>Name:</b> <span id="getNameRemove"></span><br>
+                                                                <b>eMail:</b> <span id="getMailRemove"></span><br>
+                                                                <b>Username:</b> <span id="getUsernameRemove"></span><br>
+                                                                <b>Website:</b> <a href="#" id="getUrlLinkRemove"><span id="getUrl"></span></a><br>
+                                                                <b>Custom Field 1:</b> <span id="getCustomField1Remove"></span><br>
+                                                                <b>Custom Field 2:</b> <span id="getCustomField2Remove"></span><br>
+                                                                <b>Custom Field 3:</b> <span id="getCustomField3Remove"></span><br>
+                                                                <b>Custom Field 4:</b> <span id="getCustomField4Remove"></span><br>
+                                                                <b>Custom Field 5:</b> <span id="getCustomField5Remove"></span>
+                                                            </div>
+                                                            <div class="cell top third">
+                                                                <div class="profile_pic">
+                                                                    <img src="../img/no_pic.jpg" id="getProfile_Pic">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <br><br>
+                                                    <div id="removeQuestion">
+                                                        <center>
+                                                            <h3>Are you sure you want to remove this Admin?</h3>
+                                                            <button type="submit" class="doRemove" id="none">Yes, I do <i class="fas fa-check"></i></button> <button type="submit" class="dontRemove">No, I don't <i class="fas fa-times"></i></button>    
+                                                        </center>
+                                                        <br><br>
+                                                    </div>
+                                                    <div id="adminActionsRemove">
+                                                    </div>
+
+                                                </div>
+
+                                                <div id="response">
+
+                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -120,8 +213,12 @@
             };
 
             $(document).ready(function () {
-                $("#loggedUser").hide();
-                $("#loginUser").hide();
+                $("#setSection").hide();
+                $("#response").hide();
+                $("#getSection").hide();
+                $("#setUpdateSection").hide();
+                $("#removeSection").hide();
+                $("#pageName").empty().append("<i class=\"fas fa-user\"></i> Admins - List");
                 data = {"ob": "user", "op": "checkLogin", "json": ""};
                 $.ajax({
                     type: "POST",
@@ -132,37 +229,34 @@
                         if (data.status == 200) {
                             $("#user").empty().append(data.json.username);
                             $("#loggedUser").show();
-                            $("#loginUser").hide();
                         } else {
-                            $("#user").empty();
-                            $("#loggedUser").hide();
-                            $("#loginUser").show();
+                            location.href = "../index.html";
                         }
                     },
                     error: function (data) {
                         console.log("Error cliente login");
                     }
                 });
-                    data2 = {"ob": "user", "op": "getPage", "json": '{"np":"1", "rpp":"10"}'};
-                    $.ajax({
-                        type: "POST",
-                        url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
-                        data: data2,
-                        dataType: "json",
-                        success: function (data) {
-                            if (data.status == 200) {
-                                for (i = 0; i < data.json.length; i++) {
-                                    $("#admins").append("<tr><td>" + data.json[i].name + "</td><td>" + data.json[i].mail + "</td><td>" + data.json[i].username + "</td><td><a href='" + data.json[i].url + "'>" + data.json[i].url + "</a></td><td><i class=\"fas fa-eye\"></i> <i class=\"fas fa-pencil-alt\"></i> <i class=\"fas fa-trash-alt\"></i></td></tr>");
-                                }
-                            } else {
-                                console.log("Error servidor get")
+                data2 = {"ob": "user", "op": "getPage", "json": '{"np":"1", "rpp":"10"}'};
+                $.ajax({
+                    type: "POST",
+                    url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                    data: data2,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status == 200) {
+                            for (i = 0; i < data.json.length; i++) {
+                                $("#admins").append("<tr><td>" + data.json[i].name + "</td><td>" + data.json[i].mail + "</td><td>" + data.json[i].username + "</td><td><a href='" + data.json[i].url + "'>" + data.json[i].url + "</a></td><td><button type=\"submit\" class=\"get\" id=\"" + data.json[i].id + "\"><i class=\"fas fa-eye\"></i></button> <button type=\"submit\" class=\"update\" id=\"" + data.json[i].id + "\"><i class=\"fas fa-pencil-alt\"></i></button> <button type=\"submit\" class=\"remove\" id=\"" + data.json[i].id + "\"><i class=\"fas fa-trash-alt\"></i></button></td></tr>");
                             }
-                        },
-                        error: function (data) {
-                            console.log("Error cliente get");
+                        } else {
+                            console.log("Error servidor get");
                         }
-                    });
-                $("#GetPage").click(function () {
+                    },
+                    error: function (data) {
+                        console.log("Error cliente get");
+                    }
+                });
+                $("#getPage").click(function () {
                     values = $("#getPageForm").serializeObject();
                     data = {"ob": "user", "op": "getPage", "json": JSON.stringify(values)};
                     $.ajax({
@@ -172,11 +266,13 @@
                         dataType: "json",
                         success: function (data) {
                             if (data.status == 200) {
+                                $("#pageName").empty().append("<i class=\"fas fa-user\"></i> Admins - List");
+                                $("#admins").empty().append("<tr><th>Name</th><th>Username</th><th>Email</th><th>URL</th><th></th></tr>");
                                 for (i = 0; i < data.json.length; i++) {
-                                    $("#admins").append("<tr><td>" + data.json[i].name + "</td><td>" + data.json[i].mail + "</td><td>" + data.json[i].username + "</td><td><a href='" + data.json[i].url + "'>" + data.json[i].url + "</a></td><td><i class=\"fas fa-eye\"></i> <i class=\"fas fa-pencil-alt\"></i> <i class=\"fas fa-trash-alt\"></i></td></tr>");
+                                    $("#admins").append("<tr><td>" + data.json[i].name + "</td><td>" + data.json[i].mail + "</td><td>" + data.json[i].username + "</td><td><a href='" + data.json[i].url + "'>" + data.json[i].url + "</a></td><td><button type=\"submit\" class=\"get\" id=\"" + data.json[i].id + "\"><i class=\"fas fa-eye\"></i></button> <button type=\"submit\" class=\"update\" id=\"" + data.json[i].id + "\"><i class=\"fas fa-pencil-alt\"></i></button> <button type=\"submit\" class=\"remove\" id=\"" + data.json[i].id + "\"><i class=\"fas fa-trash-alt\"></i></button></td></tr>");
                                 }
                             } else {
-                                console.log("Error servidor get")
+                                console.log("Error servidor get");
                             }
                         },
                         error: function (data) {
@@ -184,10 +280,10 @@
                         }
                     });
                 })
-                $("#login").click(function () {
-                    values = $("#loginForm").serializeObject();
+                $("#set").click(function () {
+                    values = $("#setForm").serializeObject();
                     values.password = forge_sha256($("#password").val());
-                    data = {"ob": "user", "op": "login", "json": JSON.stringify(values)};
+                    data = {"ob": "user", "op": "set", "json": JSON.stringify(values)};
                     $.ajax({
                         type: "POST",
                         url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
@@ -195,18 +291,210 @@
                         dataType: "json",
                         success: function (data) {
                             if (data.status == 200) {
-                                $("#user").empty().append(data.json.username);
-                                $("#loggedUser").show();
-                                $("#loginUser").hide();
+                                $("#setForm")[0].reset();
+                                $("#setSection").hide();
+                                $("#setUpdateSection").hide();
+                                $("#response").show();
+                                $("#response").empty().append("<h3>Admin registered successfully</h3><br><br><button type=\"submit\" class=\"back\">Back to Admins List <i class=\"fas fa-undo-alt\"></i></button> ");
                             } else {
-                                $(".response").empty().append("Wrong username or password");
+                                console.log("Error servidor get");
                             }
                         },
                         error: function (data) {
-                            $(".response").empty().append("Wrong username or password");
+                            console.log("Error cliente get");
                         }
                     });
                 })
+                $("#setUpdate").click(function () {
+                    values = $("#setUpdateForm").serializeObject();
+                    values.password = forge_sha256($("#password").val());
+                    data = {"ob": "user", "op": "set", "json": JSON.stringify(values)};
+                    $.ajax({
+                        type: "POST",
+                        url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.status == 200) {
+                                $("#setUpdateForm")[0].reset();
+                                $("#setSection").hide();
+                                $("#setUpdateSection").hide();
+                                
+                                $("#response").show();
+                                $("#response").empty().append("<h3>Admin updated successfully</h3><br><br><button type=\"submit\" class=\"back\">Back to Admins List <i class=\"fas fa-undo-alt\"></i></button> ");
+                            } else {
+                                console.log("Error servidor get");
+                            }
+                        },
+                        error: function (data) {
+                            console.log("Error cliente get");
+                        }
+                    });
+                })
+                $(document).on("click", ".get", function () {
+                    values = $(this).attr('id');
+                    data = {"ob": "user", "op": "get", "json": JSON.stringify(values)};
+                    $.ajax({
+                        type: "POST",
+                        url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.status == 200) {
+                                $("#pageName").empty().append("<i class=\"fas fa-user\"></i> Admins - View");
+                                $("#getSection").show();
+                                $("#getPageSection").hide();
+                                $("#setUpdateSection").hide();
+                                $("#getName").empty().append(data.json.name);
+                                $("#getMail").empty().append(data.json.mail);
+                                $("#getUsername").empty().append(data.json.username);
+                                $("#getUrl").empty().append(data.json.url);
+                                $("#getUrlLink").attr("href", data.json.url);
+                                if (data.json.profile_pic == null || data.json.profile_pic == "") {
+                                    profile_pic = "../img/no_pic.jpg";
+                                } else {
+                                    profile_pic = "../../../profile_pics/" + data.json.profile_pic;
+                                }
+                                $("#getProfile_Pic").attr("src", profile_pic);
+                                $("#getCustomField1").empty().append(data.json.custom_field1);
+                                $("#getCustomField2").empty().append(data.json.custom_field2);
+                                $("#getCustomField3").empty().append(data.json.custom_field3);
+                                $("#getCustomField4").empty().append(data.json.custom_field4);
+                                $("#getCustomField5").empty().append(data.json.custom_field5);
+                                $("#adminActions").empty().append("<center><button type=\"submit\" class=\"back\">Back <i class=\"fas fa-undo-alt\"></i></button> <button type=\"submit\" class=\"update\" id=\"" + data.json.id + "\">Edit <i class=\"fas fa-pencil-alt\"></i></button> <button type=\"submit\" class=\"remove\" id=\"" + data.json.id + "\">Remove <i class=\"fas fa-trash-alt\"></i></button></center>");
+                            } else {
+                                console.log("Error servidor get");
+                            }
+                        },
+                        error: function (data) {
+                            console.log("Error cliente get");
+                        }
+                    });
+                })
+
+                $(document).on("click", ".doRemove", function () {
+                    values = $(this).attr('id');
+                    data = {"ob": "user", "op": "remove", "json": JSON.stringify(values)};
+                    $.ajax({
+                        type: "POST",
+                        url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.status == 200) {
+                                $("#removeSection").hide();
+                                $("#response").show();
+                                $("#response").empty().append("<h3>Admin deleted successfully</h3><br><br><button type=\"submit\" class=\"back\">Back to Admins List <i class=\"fas fa-undo-alt\"></i></button> ");
+
+                            } else {
+                                console.log("Error servidor get");
+                            }
+                        },
+                        error: function (data) {
+                            console.log("Error cliente get");
+                        }
+                    });
+                })
+
+                $("#showNewAdmin").click(function () {
+                    $("#pageName").empty().append("<i class=\"fas fa-user\"></i> Admins - New");
+                    $("#getPageSection").hide();
+                    $("#setSection").show();
+                    $("#getSection").hide();
+                    $("#response").hide();
+                    $("#setUpdateSection").hide();
+                })
+                $(document).on("click", ".back", function () {
+                    location.reload();
+                })
+                $(document).on("click", ".askRemove", function () {
+                    $("#removeQuestion").show();
+                    id = $(this).attr('id');
+                    $(".doRemove").attr("id", id);
+                })
+                $(".dontRemove").click(function () {
+                    $("#removeQuestion").hide();
+                    $(".doRemove").val("none");
+                })
+                $(document).on("click", ".remove", function () {
+                    $("#pageName").empty().append("<i class=\"fas fa-user\"></i> Admins - Remove");
+                    $("#removeSection").show();
+                    $("#getPageSection").hide();
+                    $("#removeQuestion").hide();
+                    $("#getSection").hide();
+                    values = $(this).attr('id');
+                    data = {"ob": "user", "op": "get", "json": JSON.stringify(values)};
+                    $.ajax({
+                        type: "POST",
+                        url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.status == 200) {
+                                $("#setUpdateSection").hide();
+                                $("#getNameRemove").empty().append(data.json.name);
+                                $("#getMailRemove").empty().append(data.json.mail);
+                                $("#getUsernameRemove").empty().append(data.json.username);
+                                $("#getUrlRemove").empty().append(data.json.url);
+                                $("#getUrlLinkRemove").attr("href", data.json.url);
+                                if (data.json.profile_pic == null || data.json.profile_pic == "") {
+                                    profile_pic = "../img/no_pic.jpg";
+                                } else {
+                                    profile_pic = "../../../profile_pics/" + data.json.profile_pic;
+                                }
+                                $("#getProfile_PicRemove").attr("src", profile_pic);
+                                $("#getCustomField1Remove").empty().append(data.json.custom_field1);
+                                $("#getCustomField2Remove").empty().append(data.json.custom_field2);
+                                $("#getCustomField3Remove").empty().append(data.json.custom_field3);
+                                $("#getCustomField4Remove").empty().append(data.json.custom_field4);
+                                $("#getCustomField5Remove").empty().append(data.json.custom_field5);
+                                $("#adminActionsRemove").empty().append("<center><button type=\"submit\" class=\"back\">Back <i class=\"fas fa-undo-alt\"></i></button> <button type=\"submit\" class=\"askRemove\" id=\"" + data.json.id + "\">Remove <i class=\"fas fa-trash-alt\"></i></button></center>");
+                            } else {
+                                console.log("Error servidor get");
+                            }
+                        },
+                        error: function (data) {
+                            console.log("Error cliente get");
+                        }
+                    });
+                })
+                $(document).on("click", ".update", function () {
+                    //id = $(this).attr('id');
+                    //$("#idUpdate").val(id);
+                    $("#pageName").empty().append("<i class=\"fas fa-user\"></i> Admins - Edit");
+                    $("#setUpdateSection").show();
+                    $("#getPageSection").hide();
+                    $("#getSection").hide();
+                    values = $(this).attr('id');
+                    data = {"ob": "user", "op": "get", "json": JSON.stringify(values)};
+                    $.ajax({
+                        type: "POST",
+                        url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.status == 200) {
+                                $("#idUpdate").val(data.json.id);
+                                $("#nameUpdate").val(data.json.name);
+                                $("#mailUpdate").val(data.json.mail);
+                                $("#usernameUpdate").val(data.json.username);
+                                $("#urlUpdate").val(data.json.url);
+                                $("#profile_picUpdate").val(data.json.profile_pic);
+                                $("#custom_field1Update").val(data.json.custom_field1);
+                                $("#custom_field2Update").val(data.json.custom_field2);
+                                $("#custom_field3Update").val(data.json.custom_field3);
+                                $("#custom_field4Update").val(data.json.custom_field4);
+                                $("#custom_field5Update").val(data.json.custom_field5);
+                            } else {
+                                console.log("Error servidor get");
+                            }
+                        },
+                        error: function (data) {
+                            console.log("Error cliente get");
+                        }
+                    });
+                })
+
                 $("#logOut").click(function () {
                     data = {"ob": "user", "op": "logout", "json": ""};
                     $.ajax({
@@ -216,11 +504,9 @@
                         dataType: "json",
                         success: function (data) {
                             if (data.status == 200) {
-                                $("#loggedUser").hide();
-                                $(".response").empty().append("Loged out successfully");
-                                $("#loginUser").show();
+                                location.href = "../index.html";
                             } else {
-                                console.log("Error servidor logout")
+                                console.log("Error servidor logout");
                             }
                         },
                         error: function (data) {
