@@ -5,7 +5,7 @@
 
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800');
 
-html, body {margin: 0px; padding: 0px; width: 100%; height: 100%;}
+html, body { margin: 0px; padding: 0px; }
 
 body {
     background: url(img/bg.png) repeat;
@@ -14,33 +14,22 @@ body {
 
 .wrapper {
     width: 100%;
-    min-height: 100%;
+    margin: 50px auto !important;
 }
 
-.table { display: table; width: 100%; height: 100%; }
-.row { display: table-row; width: 100%; height: 100%; }
-.cell { display: table-cell; width: 100%; height: 100%;  }
-
-.half { width: 50%; }
-.third { width: 20%}
-.two_third { width: 70%;}
-.middle { vertical-align: middle; }
-.top { vertical-align: top;}
-
 .container {
-    margin: 0 auto;
-    width: 90%;
     background: #353b5b;
     box-shadow: 0px 0px 50px rgba(0,0,0,0.2);
     border-radius: 15px;
-    display: block;
-    min-height: 100%;
-    margin-bottom: 75px;
 }
 
 .content {
-    padding: 50px;
-    height: 100%;
+    min-height: 65vh;
+    padding: 0px 20px;
+}
+
+h3 {
+    font-size: 20px !important;
 }
 
 /******************** LOGIN ********************/
@@ -106,22 +95,26 @@ button#login:hover {
 
 /******************** INDEX ********************/
 
-#loggedUser {
-    padding-top: 50px;
-    min-height: 80%;
+.row.top_nav {
+    margin-bottom: 30px !important;
 }
 
 .top_nav {
     width: 100%;
     background: #fff;
-    height: 50px;
+    min-height: 50px;
     border-radius: 15px 15px 0 0;
+    display: block;
+}
+
+.row.footer {
+    margin-top: 30px;
 }
 
 .footer {
     width: 100%;
     background: #fff;
-    height: 50px;
+    min-height: 50px;
     border-radius: 0 0 15px 15px;
     text-transform: uppercase;
     font-weight: 600;
@@ -132,16 +125,13 @@ button#login:hover {
 }
 
 .logOut {
-    width: 25%;
-    min-width: 300px;
     padding: 10px;
 }
 
 .user_info {
     text-transform: uppercase;
     font-weight: 600;
-    width: 75%;
-    padding: 10px 0 10px 20px;
+    padding: 0 0 0 30px !important;
 }
 
 button, .logOut a {
@@ -158,6 +148,10 @@ button, .logOut a {
     font-family: 'Poppins', sans-serif;
 }
 
+button#logOut {
+    margin-left: 10px;
+}
+
 .logOut a {
     text-decoration: none;
     font-size: 13.3333px;
@@ -171,10 +165,14 @@ button:hover, .logOut a:hover {
     cursor: pointer;
 }
 
+button:focus {
+    background: #515986 !important;
+}
+
 .nav {
-    width: 85%;
     background: #5e6796;
     padding: 20px;
+    margin-bottom: 30px;
 }
 
 .nav h3 {
@@ -183,6 +181,7 @@ button:hover, .logOut a:hover {
     color: #fff;
     padding: 0px;
     margin: 0px 0px 10px 0px;
+    font-size: 24px;
 }
 
 .nav ul {
@@ -215,9 +214,7 @@ button:hover, .logOut a:hover {
 
 .main {
     background: #fff;
-    width: 92%;
-    padding: 20px;
-    float: right;
+    padding: 30px;
 }
 
 .logOut button, .title button, .logOut a {
@@ -230,7 +227,7 @@ button:hover, .logOut a:hover {
     margin: 0px;
     padding: 0px;
     width: 100%;
-
+    font-size: 30px;
     text-transform: uppercase;
 }
 
@@ -244,6 +241,10 @@ button:hover, .logOut a:hover {
     color: #353b5b;
 }
 
+.row.title {
+    margin: 0px 0px 20px 0px !important;
+}
+
 .title {
     border-bottom: 4px #353b5b solid;
     margin-bottom: 20px;
@@ -255,14 +256,21 @@ button:hover, .logOut a:hover {
 }
 
 .filters input {
-    outline: none;
-    border: none;
-    background: #5e6796;
-    padding: 10px 20px;
-    border-radius: 30px;
-    margin: 0 20px 0 5px;
+    background: #5e6796 !important;
+    padding: 0px 20px !important;
+    border-radius: 30px !important;
+    margin: 0 20px 0 5px !important;
     color: #fff;
-    width: 100px;
+    width: 100px !important;
+    height: 35px !important;
+    vertical-align: middle;
+    border: none !important;
+}
+
+.filters input:focus {
+    border: none !important;
+    box-shadow: none !important;
+    background: #515986 !important;
 }
 
 .filters form {
@@ -278,7 +286,7 @@ table {
     outline: none;
     border: none;
     background: #efefef;
-    padding: 15px 20px;
+    padding: 5px 20px;
     border-radius: 10px;
     margin: 5px 0;
     color: #353b5b;
@@ -288,6 +296,10 @@ table {
 
 #setSection input::placeholder, #setUpdateSection input::placeholder {
     color: #9b9b9c;
+}
+
+#setSection input:focus, #setUpdateSection input:focus {
+    box-shadow: none !important;
 }
 
 .hiddenInput {
@@ -300,6 +312,7 @@ table {
     width: 240px;
     margin-left: 45px;
     margin-top: 15px;
+    padding: 12px 0;
 }
 
 .profile_pic img {
@@ -308,13 +321,17 @@ table {
 
 #response button {
     width: 240px;
-    
 }
 
 td button {
     width: 30px;
+    height: 30px;
     padding: 5px;
     margin: 0px;
+}
+
+td button:hover {
+    background: #3c436b;
 }
 
 th {
@@ -324,10 +341,9 @@ th {
     border-right: 1px solid #343a45;
     font-size:16px;
     font-weight: 100;
-    padding:24px;
-    text-align:left;
+    padding: 24px !important;
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-    vertical-align:middle;
+    border-radius: 0px !important;
 }
 
 th:first-child {
@@ -379,18 +395,11 @@ tr:last-child td:last-child {
 }
 
 td {
-    background:#FFFFFF;
-    padding:20px;
-    text-align:left;
-    vertical-align:middle;
-    font-weight:300;
-    font-size:12px;
-    text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
-    border-right: 1px solid #C1C3D1;
-}
-
-td:last-child {
-    border-right: 0px;
+    background: #FFFFFF;
+    padding: 20px !important;
+    font-weight: 300;
+    font-size: 12px;
+    border-radius: 0px !important;
 }
 
 th.text-left {
@@ -415,4 +424,10 @@ td.text-center {
 
 td.text-right {
     text-align: right;
+}
+
+@media only screen and (min-width: 993px) {
+    .container {
+        width: 80% !important;
+    }
 }

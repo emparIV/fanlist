@@ -103,10 +103,9 @@ class UserDao implements DaoTableInterface, DaoViewInterface {
                 if ($array['id'] == "") {
                     $sql = $connection->getConnection();
                     $preparedStatement = $sql->prepare("INSERT INTO user "
-                            . "(name, mail, username, password, url, profile_pic, custom_field1, "
-                            . "custom_field2, custom_field3, custom_field4, custom_field5) VALUES( "
-                            . "?,?,?,?,?,?,?,?,?,?,?)");
-                    $preparedStatement->bind_param('sssssssssss', $array['name'], $array['mail'], $array['username'], $array['password'], $array['url'], $array['profile_pic'], $array['custom_field1'], $array['custom_field2'], $array['custom_field3'], $array['custom_field4'], $array['custom_field5']);
+                            . "(name, mail, username, password, url) VALUES( "
+                            . "?,?,?,?,?)");
+                    $preparedStatement->bind_param('sssss', $array['name'], $array['mail'], $array['username'], $array['password'], $array['url']);
                     $preparedStatement->execute();
                     $preparedStatement->store_result();
                     $preparedStatement->bind_result($response);
@@ -115,10 +114,8 @@ class UserDao implements DaoTableInterface, DaoViewInterface {
                     $insert = FALSE;
                     $sql = $connection->getConnection();
                     $preparedStatement = $sql->prepare("UPDATE user SET "
-                            . "name = ?, mail = ?, username = ?, password = ?, url = ?, profile_pic = ?, "
-                            . "custom_field1 = ?, custom_field2 = ?, custom_field3 = ?, custom_field4 = ?,"
-                            . " custom_field5 = ? WHERE id = ? ");
-                    $preparedStatement->bind_param('sssssssssssi', $array['name'], $array['mail'], $array['username'], $array['password'], $array['url'], $array['profile_pic'], $array['custom_field1'], $array['custom_field2'], $array['custom_field3'], $array['custom_field4'], $array['custom_field5'], $array["id"]);
+                            . "name = ?, mail = ?, username = ?, password = ?, url = ? WHERE id = ? ");
+                    $preparedStatement->bind_param('sssssi', $array['name'], $array['mail'], $array['username'], $array['password'], $array['url'], $array["id"]);
                     $preparedStatement->execute();
                     $preparedStatement->store_result();
                     $preparedStatement->bind_result($response);
