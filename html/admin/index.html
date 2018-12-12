@@ -6,100 +6,80 @@
         <script src="//code.jquery.com/jquery-latest.js"></script>
         <script src="js/forge-sha256.min.js"></script>
         <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+        
         <title>Admin Login</title>
     </head>
     <body>
-        <div class="wrapper" id="index">
-            <div class="table" id="loginUser">
-                <div class="row">
-                    <div class="cell middle">
-                        <div class="container login">
-                            <div class="content">
-                                <div class="table">
-                                    <div class="row">
-                                        <div class="cell half middle">
-                                            <img src="img/Idego_logo.png" alt="" id="logo"/>
-                                        </div>
-                                        <div class="cell half middle">
-                                            <h1>Admin Login</h1>
-                                            <form id="loginForm">
-                                                <input type="text" id="username" placeholder="Username" required autofocus name="username">
-                                                <input type="password" id="password" placeholder="Password" required autofocus name="password">
-                                            </form>
-                                            <button type="submit" id="login"><i class="fas fa-sign-in-alt"></i> Login</button>
-                                            <div class="response"></div>
-                                        </div>
-                                    </div>
-                                </div>
+        <div class="valigncontainer" id="loginUser">
+            <div class="container wrapper" >
+                <div class="row valign-wrapper">
+                    <div class="col s12 l6">
+                        <img src="img/Idego_logo.png" alt="" id="logo"/>
+                    </div>
+                    <div class="col s12 l6">
+                        <h1>Admin Login</h1>
+                        <form id="loginForm">
+                            <input type="text" id="username" placeholder="Username" required autofocus name="username">
+                            <input type="password" id="password" placeholder="Password" required autofocus name="password">
+                        </form>
+                        <button type="submit" id="login"><i class="fas fa-sign-in-alt"></i> Login</button>
+                        <div class="response"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container wrapper" id="loggedUser">
+                <div class="row top_nav valign-wrapper">
+                    <div class="col s12 l8 user_info">
+                        <i class="fas fa-user"></i> Welcome back, <span id="user"></span>
+                    </div>
+                    <div class="col s12 l4 logOut">
+                        <button type="submit" id="logOut">Logout <i class="fas fa-sign-out-alt"></i></button>
+                        <a href="../index.html">View Site <i class="fas fa-home"></i></a>
+                    </div>
+                </div>
+                <div class="row content">
+                    <div class="col s12 l3">
+                        <div class="nav">
+                            <h3><i class="fas fa-bars"></i> Navigation</h3>
+                            <ul>
+                                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                                <li><a href="members/index.html"><i class="fas fa-users"></i> Members</a></li>
+                                <li><a href="news/index.html?XDEBUG_SESSION_START=netbeans-xdebug"><i class="fas fa-newspaper"></i> News</a></li>
+                                <li><a href="rules/index.html"><i class="fas fa-align-center"></i> Rules</a></li>
+                                <li><a href="admins/index.html"><i class="fas fa-user"></i> Admins</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col s12 l9">
+                        <div class="main">
+                            <div class="row title">
+                                <div class="cell s12 two_third top">
+                                    <h1>Stats</h1>
+                                </div>                  
+                            </div>
+                            <div class="row stats">
+                                <ul>
+                                    <li>Number of members: <span id="membersCount"></span></li>
+                                    <li>Number of admins: <span id="adminsCount"></span></li>
+                                    <li>Number of news posted: <span id="newsCount"></span></li>
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="table" id="loggedUser">
-                <div class="row">
-                    <div class="cell top">
-                        <div class="container" >
-                            <div class="table top_nav">
-                                <div class="row">
-                                    <div class="cell user_info middle">
-                                        <i class="fas fa-user"></i> Welcome back, <span id="user"></span>
-                                    </div>
-                                    <div class="cell logOut middle">
-                                        <button type="submit" id="logOut">Logout <i class="fas fa-sign-out-alt"></i></button>
-                                        <a href="../index.html">View Site <i class="fas fa-home"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="content">
-                                <div class="table">
-                                    <div class="row ">
-                                        <div class="cell third top">
-                                            <div class="nav">
-                                                <h3><i class="fas fa-bars"></i> Navigation</h3>
-                                                <ul>
-                                                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
-                                                    <li><a href="members/index.html"><i class="fas fa-users"></i> Members</a></li>
-                                                    <li><a href="news/index.html"><i class="fas fa-newspaper"></i> News</a></li>
-                                                    <li><a href="rules/index.html"><i class="fas fa-align-center"></i> Rules</a></li>
-                                                    <li><a href="admins/index.html"><i class="fas fa-user"></i> Admins</a></li>
-                                                    <li><a href="settings/index.html"><i class="fas fa-cogs"></i> Settings</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="cell two_third top">
-                                            <div class="main">
-                                                <div class="table title">
-                                                    <div class="row">
-                                                        <div class="cell two_third top">
-                                                            <h1>Stats</h1>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="stats">
-                                                    <ul>
-                                                        <li>Number of members: <span id="members"></span></li>
-                                                        <li>Number of admins: <span id="admins"></span></li>
-                                                        <li>Number of news posted: <span id="news"></span></li>
-                                                        <li>Number of commens: <span id="commenst"></span></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="table" id="footer">
-                                <div class="row">
-                                    <div class="cell footer middle">
-                                        <div class="copyright">Powered by Idego Fanlisting &#169; Empar Ibáñez</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <div class="table" id="footer">
+                <div class="row footer valign-wrapper" id="footer">
+                <div class="col s12">
+                    <div class="copyright">Powered by Idego Fanlisting &#169; Empar Ibáñez</div>
                 </div>
             </div>
+        </div>
+            
         </div>
         <script>
             $.fn.serializeObject = function ()
@@ -144,6 +124,57 @@
                         console.log("Error cliente login");
                     }
                 });
+                dataAdmins = {"ob": "user", "op": "getCount", "json": ""};
+                $.ajax({
+                    type: "POST",
+                    url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                    data: dataAdmins,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status == 200) {
+                            $('#adminsCount').append(data.json);
+                        } else {
+                            console.log("Error servidor get count");
+                        }
+                    },
+                    error: function (data) {
+                        console.log("Error cliente get count");
+                    }
+                });
+                dataMembers = {"ob": "member", "op": "getCount", "json": ""};
+                $.ajax({
+                    type: "POST",
+                    url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                    data: dataMembers,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status == 200) {
+                            $('#membersCount').append(data.json);
+                        } else {
+                            console.log("Error servidor get count");
+                        }
+                    },
+                    error: function (data) {
+                        console.log("Error cliente get count");
+                    }
+                });
+                dataNews = {"ob": "news", "op": "getCount", "json": ""};
+                $.ajax({
+                    type: "POST",
+                    url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                    data: dataNews,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status == 200) {
+                            $('#newsCount').append(data.json);
+                        } else {
+                            console.log("Error servidor get count");
+                        }
+                    },
+                    error: function (data) {
+                        console.log("Error cliente get count");
+                    }
+                });
                 $("#login").click(function () {
                     values = $("#loginForm").serializeObject();
                     values.password = forge_sha256($("#password").val());
@@ -164,6 +195,57 @@
                         },
                         error: function (data) {
                             $(".response").empty().append("Wrong username or password");
+                        }
+                    });
+                    dataAdmins = {"ob": "user", "op": "getCount", "json": ""};
+                    $.ajax({
+                        type: "POST",
+                        url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                        data: dataAdmins,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.status == 200) {
+                                $('#adminsCount').append(data.json);
+                            } else {
+                                console.log("Error servidor get count");
+                            }
+                        },
+                        error: function (data) {
+                            console.log("Error cliente get count");
+                        }
+                    });
+                    dataMembers = {"ob": "member", "op": "getCount", "json": ""};
+                    $.ajax({
+                        type: "POST",
+                        url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                        data: dataMembers,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.status == 200) {
+                                $('#membersCount').append(data.json);
+                            } else {
+                                console.log("Error servidor get count");
+                            }
+                        },
+                        error: function (data) {
+                            console.log("Error cliente get count");
+                        }
+                    });
+                    dataNews = {"ob": "news", "op": "getCount", "json": ""};
+                    $.ajax({
+                        type: "POST",
+                        url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                        data: dataNews,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.status == 200) {
+                                $('#newsCount').append(data.json);
+                            } else {
+                                console.log("Error servidor get count");
+                            }
+                        },
+                        error: function (data) {
+                            console.log("Error cliente get count");
                         }
                     });
                 })

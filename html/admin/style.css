@@ -23,31 +23,41 @@ body {
     border-radius: 15px;
 }
 
-.content {
-    min-height: 65vh;
-    padding: 0px 20px;
-}
-
 h3 {
     font-size: 20px !important;
 }
 
-/******************** LOGIN ********************/
-
-.login  {
-    width: 70% !important;
+.richText a {
+    color: #5e6796 !important;
 }
 
-#loginUser .container {
-    height: auto;
-    min-height: 0px;
+.richText .richText-editor:focus {
+    border-left: #353b5b solid 2px;
+}
+
+select {
+    display: unset !important;
+}
+
+/******************** LOGIN ********************/
+
+.valigncontainer {
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+#loginUser .row {
+    padding: 35px 20px;
 }
 
 #loginUser input {
     outline: none;
     border: none;
     background: #fff;
-    padding: 20px;
+    padding: 8px 30px;
     border-radius: 30px;
     display: block;
     margin: 15px auto;
@@ -427,7 +437,5 @@ td.text-right {
 }
 
 @media only screen and (min-width: 993px) {
-    .container {
-        width: 80% !important;
-    }
+
 }

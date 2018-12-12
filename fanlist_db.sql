@@ -48,10 +48,6 @@ CREATE TABLE IF NOT EXISTS `fanlist`.`temp` (
   `rules` TINYINT(1) NULL,
   `IP` VARCHAR(255) NULL,
   `add_date` VARCHAR(255) NULL,
-  `custom_field1` VARCHAR(255) NULL,
-  `custom_field2` VARCHAR(255) NULL,
-  `custom_field3` VARCHAR(255) NULL,
-  `custom_field4` VARCHAR(255) NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -75,10 +71,6 @@ CREATE TABLE IF NOT EXISTS `fanlist`.`member` (
   `comment` VARCHAR(255) NULL,
   `profile_pic` VARCHAR(255) NULL,
   `add_date` DATETIME NULL,
-  `custom_field1` VARCHAR(255) NULL,
-  `custom_field2` VARCHAR(255) NULL,
-  `custom_field3` VARCHAR(255) NULL,
-  `custom_field4` VARCHAR(255) NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -94,11 +86,6 @@ CREATE TABLE IF NOT EXISTS `fanlist`.`user` (
   `password` VARCHAR(255) NULL,
   `url` VARCHAR(255) NULL,
   `profile_pic` VARCHAR(255) NULL,
-  `custom_field1` VARCHAR(255) NULL,
-  `custom_field2` VARCHAR(255) NULL,
-  `custom_field3` VARCHAR(255) NULL,
-  `custom_field4` VARCHAR(255) NULL,
-  `custom_field5` VARCHAR(255) NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -111,7 +98,6 @@ CREATE TABLE IF NOT EXISTS `fanlist`.`news` (
   `title` VARCHAR(255) NULL,
   `content` VARCHAR(255) NULL,
   `date` DATETIME NULL,
-  `posted` VARCHAR(255) NULL,
   `user_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_news_user1_idx` (`user_id` ASC),
@@ -121,79 +107,6 @@ CREATE TABLE IF NOT EXISTS `fanlist`.`news` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `fanlist`.`comments`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `fanlist`.`comments` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `date` DATETIME NULL,
-  `comment` VARCHAR(255) NULL,
-  `edited` TINYINT(1) NULL,
-  `news_id` INT NOT NULL,
-  `member_id` INT NOT NULL,
-  `user_id` INT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_comments_news1_idx` (`news_id` ASC),
-  INDEX `fk_comments_member1_idx` (`member_id` ASC),
-  INDEX `fk_comments_user1_idx` (`user_id` ASC),
-  CONSTRAINT `fk_comments_news1`
-    FOREIGN KEY (`news_id`)
-    REFERENCES `fanlist`.`news` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_comments_member1`
-    FOREIGN KEY (`member_id`)
-    REFERENCES `fanlist`.`member` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_comments_user1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `fanlist`.`user` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `fanlist`.`giveaways`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `fanlist`.`giveaways` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `title` VARCHAR(255) NULL,
-  `content` VARCHAR(255) NULL,
-  `start_date` DATETIME NULL,
-  `end_date` VARCHAR(255) NULL,
-  `winners_num` VARCHAR(255) NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `fanlist`.`entries`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `fanlist`.`entries` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `date` VARCHAR(255) NULL,
-  `winner` VARCHAR(255) NULL,
-  `giveaways_id` INT NOT NULL,
-  `member_id` INT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_entries_giveaways1_idx` (`giveaways_id` ASC),
-  INDEX `fk_entries_member1_idx` (`member_id` ASC),
-  CONSTRAINT `fk_entries_giveaways1`
-    FOREIGN KEY (`giveaways_id`)
-    REFERENCES `fanlist`.`giveaways` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_entries_member1`
-    FOREIGN KEY (`member_id`)
-    REFERENCES `fanlist`.`member` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `fanlist`.`rules`

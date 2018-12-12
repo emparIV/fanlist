@@ -71,10 +71,9 @@
                                                 <h1>Stats</h1>
                                                 <div class="stats">
                                                     <ul>
-                                                        <li>Number of members: <span id="members"></span></li>
-                                                        <li>Number of admins: <span id="admins"></span></li>
-                                                        <li>Number of news posted: <span id="news"></span></li>
-                                                        <li>Number of commens: <span id="commenst"></span></li>
+                                                        <li>Number of members: <span id="membersCount"></span></li>
+                                                        <li>Number of admins: <span id="adminsCount"></span></li>
+                                                        <li>Number of news posted: <span id="newsCount"></span></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -135,6 +134,23 @@
                     },
                     error: function (data) {
                         console.log("Error cliente login");
+                    }
+                });
+                data2 = {"ob": "user", "op": "getCount", "json": ""};
+                $.ajax({
+                    type: "POST",
+                    url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                    data: data2,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status == 200) {
+                            $('#adminsCount').append(data.json);
+                        } else {
+                            console.log("Error servidor get");
+                        }
+                    },
+                    error: function (data) {
+                        console.log("Error cliente get");
                     }
                 });
                 $("#login").click(function () {

@@ -7,9 +7,15 @@ require '../helper/SqlHelper.php';
 require '../dao/DaoTableInterface.php';
 require '../dao/DaoViewInterface.php';
 require '../dao/UserDao.php';
+require '../dao/RulesDao.php';
+require '../dao/NewsDao.php';
+require '../dao/MemberDao.php';
 require '../service/ServiceTableInterface.php';
 require '../service/ServiceViewInterface.php';
 require '../service/UserService.php';
+require '../service/RulesService.php';
+require '../service/NewsService.php';
+require '../service/MemberService.php';
 require '../helper/MappingHelper.php';
 
 function jsonHeader($code = 200) {

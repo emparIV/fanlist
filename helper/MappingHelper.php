@@ -40,6 +40,46 @@ class MappingHelper {
                         break;
                 }
                 break;
+            case "rules":
+                $oRulesService = new RulesService();
+                switch ($op) {
+                    case "get":
+                        $aResult = $oRulesService->get($json);
+                        break;
+                    case "set":
+                        $aResult = $oRulesService->set($json);
+                        break;
+                    case "remove":
+                        $aResult = $oRulesService->remove($json);
+                        break;
+                    case "getCount":
+                        $aResult = $oRulesService->getCount();
+                        break;
+                    case "getPage":
+                        $aResult = $oRulesService->getPage($json);
+                        break;
+                }
+                break;
+            case "news":
+                $oNewsService = new NewsService();
+                switch ($op) {
+                    case "get":
+                        $aResult = $oNewsService->get($json);
+                        break;
+                    case "set":
+                        $aResult = $oNewsService->set($json);
+                        break;
+                    case "remove":
+                        $aResult = $oNewsService->remove($json);
+                        break;
+                    case "getCount":
+                        $aResult = $oNewsService->getCount();
+                        break;
+                    case "getPage":
+                        $aResult = $oNewsService->getPage($json);
+                        break;
+                }
+                break;
             case "member":
                 $oMemberService = new MemberService();
                 switch ($op) {
