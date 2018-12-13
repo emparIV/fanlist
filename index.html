@@ -18,15 +18,45 @@
             <div class="container wrapper" >
                 <div class="row valign-wrapper">
                     <div class="col s12 l6">
-                        <img src="img/Idego_logo.png" alt="" id="logo"/>
+                        <img src="assets/img/Idego_logo.png" alt="" id="logo"/>
                     </div>
                     <div class="col s12 l6">
                         <h1>User Login</h1>
                         <form id="loginForm">
-                            <input type="text" id="username" placeholder="Username" required autofocus name="username">
-                            <input type="password" id="password" placeholder="Password" required autofocus name="password">
+                            <div class="input-field"><input type="text" id="username" placeholder="Username" required autofocus name="username" class="validate"></div>
+                            <div class="input-field"><input type="password" id="password" placeholder="Password" required autofocus name="password" class="validate"></div>
                         </form>
                         <button type="submit" id="login"><i class="fas fa-sign-in-alt"></i> Login</button>
+                        <p>Don't have an account? <a href="#" id="showJoin">Join now!</a></p>
+                        <div class="response"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="valigncontainer" id="joinUser">
+            <div class="container wrapper" >
+                <div class="row valign-wrapper">
+                    <div class="col s12 l6">
+                        <img src="assets/img/Idego_logo.png" alt="" id="logo"/>
+                    </div>
+                    <div class="col s12 l6">
+                        <h1>New User</h1>
+                        <form id="joinForm">
+                            <div class="input-field"><input type="text" id="usernameJoin" required  placeholder="Username" name="username" class="validate"></div>
+                            <div class="input-field"><input type="password" id="passwordJoin" required  placeholder="Password" name="password" class="validate"></div>
+                            <div class="input-field"><input type="text" id="nameJoin" required autofocus placeholder="Name" name="name" class="validate"></div>
+                            <div class="input-field"><input type="email" id="mailJoin" required  placeholder="Email" name="mail" class="validate"></div>
+                            <div class="input-field"><label for="country">Country</label><select id="countryJoin" name="country"></select></div>
+                            <div class="input-field">
+                                <label for="gender">Gender</label>
+                                <select id="genderJoin" name="gender">
+                                    <option value="unset">Unset</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </div>
+                        </form>
+                        <button type="submit" id="join"><i class="fas fa-sign-in-alt"></i> Join</button>
                         <div class="response"></div>
                     </div>
                 </div>
@@ -100,6 +130,7 @@
             $(document).ready(function () {
                 $("#loggedUser").hide();
                 $("#loginUser").hide();
+                $("#joinUser").hide();
                 data = {"ob": "member", "op": "checkLogin", "json": ""};
                 $.ajax({
                     type: "POST",
