@@ -3,15 +3,18 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="../style.css" rel="stylesheet" type="text/css"/>
+        <link href=".../../assets/css/style.css" rel="stylesheet" type="text/css"/>
         <script src="//code.jquery.com/jquery-latest.js"></script>
+        <!-- FontAwesome -->
         <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
-        <!-- Compiled and minified CSS -->
+        <!-- Materialize -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
-        <!-- Compiled and minified JavaScript -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
-
-        <title>Admin Page - Rules management</title>
+        <!-- Rich Terxt Editor -->
+        <script src="../js/richtext/jquery.richtext.min.js" type="text/javascript"></script>
+        <link href="../js/richtext/richtext.min.css" rel="stylesheet" type="text/css"/>
+        
+        <title>Admin Page - News management</title>
     </head>
     <body>
         <div class="container wrapper" id="loggedUser">
@@ -42,10 +45,10 @@
                         <div class="row title">
                             <div class="row">
                                 <div class="col s9">
-                                    <h1 id="pageName"><i class="fas fa-align-center"></i> Rules</h1>
+                                    <h1 id="pageName"><i class="fas fa-newspaper"></i> Posts</h1>
                                 </div>
                                 <div class="col s3">
-                                    <button type="submit" id="showNewRule">New <i class="fas fa-plus-circle"></i></button>
+                                    <button type="submit" id="showNewPost">New <i class="fas fa-plus-circle"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -54,13 +57,15 @@
                             <div class="filters">
                                 <form id="getPageForm">
                                     Page: <input type="number" id="np" required name="np">
-                                    Rules per page: <input type="number" id="rpp" required name="rpp">
+                                    Posts per page: <input type="number" id="rpp" required name="rpp">
                                 </form>
                                 <button type="submit" id="getPage">Apply <i class="fas fa-share-square"></i></button>
                             </div>
-                            <table cellpadding="0" cellspacing="0" border="0" id="rules" class="responsive-table">
+                            <table cellpadding="0" cellspacing="0" border="0" id="news" class="responsive-table">
                                 <tr>
-                                    <th>Description</th>
+                                    <th>Title</th>
+                                    <th>Posted on</th>
+                                    <th>Posted by</th>
                                     <th></th>
                                 </tr>
                             </table>
@@ -69,9 +74,10 @@
                         <div id="setSection">
                             <center>
                                 <form id="setForm">
-                                    <textarea id="description" required autofocus placeholder="description" name="description"></textarea>
+                                    <div class="input-field"><input type="text" id="title" required name="title" class="validate"></div>
+                                    <textarea id="content" required autofocus name="content" class="content"></textarea>
                                 </form>
-                                <button type="submit" id="set">Add New Rule <i class="fas fa-plus"></i></button> <button type="submit" class="back">Back to Rules List <i class="fas fa-undo-alt"></i></button>
+                                <button type="submit" id="set">Add New Post <i class="fas fa-plus"></i></button> <button type="submit" class="back">Back to Posts List <i class="fas fa-undo-alt"></i></button>
                             </center>
                         </div>
 
@@ -79,34 +85,44 @@
                             <center>
                                 <form id="setUpdateForm">
                                     <div class="hiddenInput"><input type="number" id="idUpdate" required name="id"></div>
-                                    <textarea id="descriptionUpdate" required autofocus placeholder="description" name="description"></textarea>
+                                    <b>Date:</b> <span id="dateUpdate"></span><br>
+                                    <b>User:</b> <span id="userUpdate"></span><br>
+                                    <div class="input-field"><input type="text" id="titleUpdate" required name="title" class="validate"></div>
+                                    <textarea id="contentUpdate" required autofocus name="content" class="content"></textarea>
+                                    <div class="hiddenInput"><input type="number" id="userIdUpdate" required name="userId"></div>
                                 </form>
-                                <button type="submit" id="setUpdate">Update <i class="fas fa-plus"></i></button> <button type="submit" class="back">Back to Rules List <i class="fas fa-undo-alt"></i></button>
+                                <button type="submit" id="setUpdate">Update <i class="fas fa-plus"></i></button> <button type="submit" class="back">Back to Posts List <i class="fas fa-undo-alt"></i></button>
                             </center>
                         </div>
 
                         <div id="getSection" class="row">
                             <div class="col s12">
-                                <b>Description:</b> <span id="getDescription"></span><br>
+                                <b>Date:</b> <span id="getDate"></span><br>
+                                <b>User:</b> <span id="getUser"></span><br>
+                                <b>Title:</b> <span id="getTitle"></span><br>
+                                <div id="getContent"></div><br>
                             </div>
                             <br><br>
-                            <div id="rulesActions">
+                            <div id="newsActions">
                             </div>
                         </div>
 
                         <div id="removeSection" class="row">
                             <div class="col s12">
-                                <b>Description:</b> <span id="getDescriptionRemove"></span><br>
+                                <b>Date:</b> <span id="getDateRemove"></span><br>
+                                <b>User:</b> <span id="getUserRemove"></span><br>
+                                <b>Title:</b> <span id="getTitleRemove"></span><br>
+                                <b>Content:</b> <div id="getContentRemove"></div><br>
                             </div>
                             <br><br>
                             <div id="removeQuestion">
                                 <center>
-                                    <h3>Are you sure you want to remove this rule?</h3>
+                                    <h3>Are you sure you want to remove this post?</h3>
                                     <button type="submit" class="doRemove" id="none">Yes, I do <i class="fas fa-check"></i></button> <button type="submit" class="dontRemove">No, I don't <i class="fas fa-times"></i></button>    
                                 </center>
                                 <br><br>
                             </div>
-                            <div id="rulesActionsRemove">
+                            <div id="newsActionsRemove">
                             </div>
 
                         </div>
@@ -147,6 +163,9 @@
                 $.each($.map(this.serializeArray(), elementMapper), appendToResult);
                 return o;
             };
+            
+            $('#content').richText();
+            $('#contentUpdate').richText();
 
             $(document).ready(function () {
                 $("#setSection").hide();
@@ -154,11 +173,11 @@
                 $("#getSection").hide();
                 $("#setUpdateSection").hide();
                 $("#removeSection").hide();
-                $("#pageName").empty().append('<i class="fas fa-align-center"></i> Rules - List');
+                $("#pageName").empty().append('<i class="fas fa-newspaper"></i> News - List');
                 data = {"ob": "user", "op": "checkLogin", "json": ""};
                 $.ajax({
                     type: "POST",
-                    url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                    url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
                     data: data,
                     dataType: "json",
                     success: function (data) {
@@ -173,55 +192,55 @@
                         console.log("Error cliente login");
                     }
                 });
-                data2 = {"ob": "rules", "op": "getPage", "json": '{"np":"1", "rpp":"10"}'};
+                data2 = {"ob": "news", "op": "getPage", "json": '{"np":"1", "rpp":"10"}'};
                 $.ajax({
                     type: "POST",
-                    url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                    url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
                     data: data2,
                     dataType: "json",
                     success: function (data) {
                         if (data.status == 200) {
                             for (i = 0; i < data.json.length; i++) {
-                                $("#rules").append("<tr><td>" + data.json[i].description + "</a></td><td><button type=\"submit\" class=\"get\" id=\"" + data.json[i].id + "\"><i class=\"fas fa-eye\"></i></button> <button type=\"submit\" class=\"update\" id=\"" + data.json[i].id + "\"><i class=\"fas fa-pencil-alt\"></i></button> <button type=\"submit\" class=\"remove\" id=\"" + data.json[i].id + "\"><i class=\"fas fa-trash-alt\"></i></button></td></tr>");
+                                $("#news").append("<tr><td>" + data.json[i].title + "</td><td>" + data.json[i].date + "</td><td>" + data.json[i].name + "</td><td><button type=\"submit\" class=\"get\" id=\"" + data.json[i].id + "\"><i class=\"fas fa-eye\"></i></button> <button type=\"submit\" class=\"update\" id=\"" + data.json[i].id + "\"><i class=\"fas fa-pencil-alt\"></i></button> <button type=\"submit\" class=\"remove\" id=\"" + data.json[i].id + "\"><i class=\"fas fa-trash-alt\"></i></button></td></tr>");
                             }
                         } else {
-                            console.log("Error servidor get");
+                            console.log("Error servidor getPage");
                         }
                     },
                     error: function (data) {
-                        console.log("Error cliente get");
+                        console.log("Error cliente getPage");
                     }
                 });
                 $("#getPage").click(function () {
                     values = $("#getPageForm").serializeObject();
-                    data = {"ob": "rules", "op": "getPage", "json": JSON.stringify(values)};
+                    data = {"ob": "news", "op": "getPage", "json": JSON.stringify(values)};
                     $.ajax({
                         type: "POST",
-                        url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                        url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
                         data: data,
                         dataType: "json",
                         success: function (data) {
                             if (data.status == 200) {
-                                $("#pageName").empty().append("<i class=\"fas fa-align-center\"></i> Rules - List");
-                                $("#rules").empty().append("<tr><th>Description</th></tr>");
+                                $("#pageName").empty().append("<i class=\"fas fa-newspaper\"></i> News - List");
+                                $("#news").empty().append("<tr><th>Title</th></tr>");
                                 for (i = 0; i < data.json.length; i++) {
-                                    $("#rules").append("<tr><td>" + data.json[i].description + "</td><td><button type=\"submit\" class=\"get\" id=\"" + data.json[i].id + "\"><i class=\"fas fa-eye\"></i></button> <button type=\"submit\" class=\"update\" id=\"" + data.json[i].id + "\"><i class=\"fas fa-pencil-alt\"></i></button> <button type=\"submit\" class=\"remove\" id=\"" + data.json[i].id + "\"><i class=\"fas fa-trash-alt\"></i></button></td></tr>");
+                                    $("#news").append("<tr><td>" + data.json[i].title + "</td><td><button type=\"submit\" class=\"get\" id=\"" + data.json[i].id + "\"><i class=\"fas fa-eye\"></i></button> <button type=\"submit\" class=\"update\" id=\"" + data.json[i].id + "\"><i class=\"fas fa-pencil-alt\"></i></button> <button type=\"submit\" class=\"remove\" id=\"" + data.json[i].id + "\"><i class=\"fas fa-trash-alt\"></i></button></td></tr>");
                                 }
                             } else {
-                                console.log("Error servidor get");
+                                console.log("Error servidor getPage");
                             }
                         },
                         error: function (data) {
-                            console.log("Error cliente get");
+                            console.log("Error cliente getPage");
                         }
                     });
                 })
                 $("#set").click(function () {
                     values = $("#setForm").serializeObject();
-                    data = {"ob": "rules", "op": "set", "json": JSON.stringify(values)};
+                    data = {"ob": "news", "op": "set", "json": JSON.stringify(values)};
                     $.ajax({
                         type: "POST",
-                        url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                        url: "http://127.0.0.1:8080/fanlist/server/Controller.php?XDEBUG_SESSION_START=netbeans-xdebug",
                         data: data,
                         dataType: "json",
                         success: function (data) {
@@ -230,22 +249,22 @@
                                 $("#setSection").hide();
                                 $("#setUpdateSection").hide();
                                 $("#response").show();
-                                $("#response").empty().append("<h3>Rule registered successfully</h3><br><br><button type=\"submit\" class=\"back\">Back to Rules List <i class=\"fas fa-undo-alt\"></i></button> ");
+                                $("#response").empty().append("<h3>Post published successfully</h3><br><br><button type=\"submit\" class=\"back\">Back to Posts List <i class=\"fas fa-undo-alt\"></i></button> ");
                             } else {
-                                console.log("Error servidor get");
+                                console.log("Error servidor set");
                             }
                         },
                         error: function (data) {
-                            console.log("Error cliente get");
+                            console.log("Error cliente set");
                         }
                     });
                 })
                 $("#setUpdate").click(function () {
                     values = $("#setUpdateForm").serializeObject();
-                    data = {"ob": "rules", "op": "set", "json": JSON.stringify(values)};
+                    data = {"ob": "news", "op": "set", "json": JSON.stringify(values)};
                     $.ajax({
                         type: "POST",
-                        url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                        url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
                         data: data,
                         dataType: "json",
                         success: function (data) {
@@ -254,7 +273,7 @@
                                 $("#setSection").hide();
                                 $("#setUpdateSection").hide();
                                 $("#response").show();
-                                $("#response").empty().append("<h3>Rule updated successfully</h3><br><br><button type=\"submit\" class=\"back\">Back to Rules List <i class=\"fas fa-undo-alt\"></i></button> ");
+                                $("#response").empty().append("<h3>Post updated successfully</h3><br><br><button type=\"submit\" class=\"back\">Back to Posts List <i class=\"fas fa-undo-alt\"></i></button> ");
                             } else {
                                 console.log("Error servidor get");
                             }
@@ -266,20 +285,23 @@
                 })
                 $(document).on("click", ".get", function () {
                     values = $(this).attr('id');
-                    data = {"ob": "rules", "op": "get", "json": JSON.stringify(values)};
+                    data = {"ob": "news", "op": "get", "json": JSON.stringify(values)};
                     $.ajax({
                         type: "POST",
-                        url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                        url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
                         data: data,
                         dataType: "json",
                         success: function (data) {
                             if (data.status == 200) {
-                                $("#pageName").empty().append("<i class=\"fas fa-align-center\"></i> Rules - View");
+                                $("#pageName").empty().append("<i class=\"fas fa-newspaper\"></i> News - View");
                                 $("#getSection").show();
                                 $("#getPageSection").hide();
                                 $("#setUpdateSection").hide();
-                                $("#getDescription").empty().append(data.json.description);
-                                $("#rulesActions").empty().append("<center><button type=\"submit\" class=\"back\">Back <i class=\"fas fa-undo-alt\"></i></button> <button type=\"submit\" class=\"update\" id=\"" + data.json.id + "\">Edit <i class=\"fas fa-pencil-alt\"></i></button> <button type=\"submit\" class=\"remove\" id=\"" + data.json.id + "\">Remove <i class=\"fas fa-trash-alt\"></i></button></center>");
+                                $("#getUser").empty().append(data.json.name);
+                                $("#getDate").empty().append(data.json.date);
+                                $("#getTitle").empty().append(data.json.title);
+                                $("#getContent").empty().append(data.json.content);
+                                $("#newsActions").empty().append("<center><button type=\"submit\" class=\"back\">Back <i class=\"fas fa-undo-alt\"></i></button> <button type=\"submit\" class=\"update\" id=\"" + data.json.id + "\">Edit <i class=\"fas fa-pencil-alt\"></i></button> <button type=\"submit\" class=\"remove\" id=\"" + data.json.id + "\">Remove <i class=\"fas fa-trash-alt\"></i></button></center>");
                             } else {
                                 console.log("Error servidor get");
                             }
@@ -292,17 +314,17 @@
 
                 $(document).on("click", ".doRemove", function () {
                     values = $(this).attr('id');
-                    data = {"ob": "rules", "op": "remove", "json": JSON.stringify(values)};
+                    data = {"ob": "news", "op": "remove", "json": JSON.stringify(values)};
                     $.ajax({
                         type: "POST",
-                        url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                        url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
                         data: data,
                         dataType: "json",
                         success: function (data) {
                             if (data.status == 200) {
                                 $("#removeSection").hide();
                                 $("#response").show();
-                                $("#response").empty().append("<h3>Rule deleted successfully</h3><br><br><button type=\"submit\" class=\"back\">Back to Rules List <i class=\"fas fa-undo-alt\"></i></button> ");
+                                $("#response").empty().append("<h3>Post deleted successfully</h3><br><br><button type=\"submit\" class=\"back\">Back to Posts List <i class=\"fas fa-undo-alt\"></i></button> ");
 
                             } else {
                                 console.log("Error servidor get");
@@ -314,13 +336,15 @@
                     });
                 })
 
-                $("#showNewRule").click(function () {
-                    $("#pageName").empty().append("<i class=\"fas fa-align-center\"></i> Rules - New");
+                $("#showNewPost").click(function () {
+                    $("#pageName").empty().append("<i class=\"fas fa-newspaper\"></i> News - New");
                     $("#getPageSection").hide();
                     $("#setSection").show();
                     $("#getSection").hide();
                     $("#response").hide();
                     $("#setUpdateSection").hide();
+                    $(".richText-editor").empty();
+                    $("#contentUpdate").empty();
                 })
                 $(document).on("click", ".back", function () {
                     location.reload();
@@ -335,24 +359,27 @@
                     $(".doRemove").val("none");
                 })
                 $(document).on("click", ".remove", function () {
-                    $("#pageName").empty().append("<i class=\"fas fa-align-center\"></i> Rules - Remove");
+                    $("#pageName").empty().append("<i class=\"fas fa-newspaper\"></i> News - Remove");
                     $("#removeSection").show();
                     $("#getPageSection").hide();
                     $("#removeQuestion").hide();
                     $("#getSection").hide();
                     values = $(this).attr('id');
-                    data = {"ob": "rules", "op": "get", "json": JSON.stringify(values)};
+                    data = {"ob": "news", "op": "get", "json": JSON.stringify(values)};
                     $.ajax({
                         type: "POST",
-                        url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                        url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
                         data: data,
                         dataType: "json",
                         success: function (data) {
                             if (data.status == 200) {
                                 $("#container").append();
                                 $("#setUpdateSection").hide();
-                                $("#getDescriptionRemove").empty().append(data.json.description)
-                                $("#rulesActionsRemove").empty().append("<center><button type=\"submit\" class=\"back\">Back <i class=\"fas fa-undo-alt\"></i></button> <button type=\"submit\" class=\"askRemove\" id=\"" + data.json.id + "\">Remove <i class=\"fas fa-trash-alt\"></i></button></center>");
+                                $("#getTitleRemove").empty().append(data.json.title);
+                                $("#getDateRemove").empty().append(data.json.date);
+                                $("#getUserRemove").empty().append(data.json.name);
+                                $("#getContentRemove").empty().append(data.json.content);
+                                $("#newsActionsRemove").empty().append("<center><button type=\"submit\" class=\"back\">Back <i class=\"fas fa-undo-alt\"></i></button> <button type=\"submit\" class=\"askRemove\" id=\"" + data.json.id + "\">Remove <i class=\"fas fa-trash-alt\"></i></button></center>");
                             } else {
                                 console.log("Error servidor get");
                             }
@@ -365,21 +392,25 @@
                 $(document).on("click", ".update", function () {
                     //id = $(this).attr('id');
                     //$("#idUpdate").val(id);
-                    $("#pageName").empty().append("<i class=\"fas fa-align-center\"></i> Rules - Edit");
+                    $("#pageName").empty().append("<i class=\"fas fa-newspaper\"></i> News - Edit");
                     $("#setUpdateSection").show();
                     $("#getPageSection").hide();
                     $("#getSection").hide();
                     values = $(this).attr('id');
-                    data = {"ob": "rules", "op": "get", "json": JSON.stringify(values)};
+                    data = {"ob": "news", "op": "get", "json": JSON.stringify(values)};
                     $.ajax({
                         type: "POST",
-                        url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                        url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
                         data: data,
                         dataType: "json",
                         success: function (data) {
                             if (data.status == 200) {
                                 $("#idUpdate").val(data.json.id);
-                                $("#descriptionUpdate").val(data.json.description);
+                                $("#userUpdate").append(data.json.name);
+                                $("#dateUpdate").append(data.json.date);
+                                $("#titleUpdate").val(data.json.title);
+                                $(".richText-editor").html(data.json.content);
+                                $("#contentUpdate").val(data.json.content);
                             } else {
                                 console.log("Error servidor get");
                             }
@@ -394,7 +425,7 @@
                     data = {"ob": "user", "op": "logout", "json": ""};
                     $.ajax({
                         type: "POST",
-                        url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                        url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
                         data: data,
                         dataType: "json",
                         success: function (data) {

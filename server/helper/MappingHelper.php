@@ -107,6 +107,8 @@ class MappingHelper {
                     case "checkLogin":
                         $aResult = $oMemberService->checkLogin();
                         break;
+                    case "profile":
+                         $aResult = $oMemberService->getProfile();
                 }
                 break;
             default:

@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="../../assets/css/style.css" rel="stylesheet" type="text/css"/>
+        <script src="//code.jquery.com/jquery-latest.js"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+
+        <title>Admin Page - Rules management</title>
+    </head>
+    <body>
+        <div class="container wrapper" id="loggedUser">
+            <div class="row top_nav valign-wrapper">
+                <div class="col s12 l8 user_info">
+                    <i class="fas fa-user"></i> Welcome back, <span id="user"></span>
+                </div>
+                <div class="col s12 l4 logOut">
+                    <button type="submit" id="logOut">Logout <i class="fas fa-sign-out-alt"></i></button>
+                    <a href="../index.html">View Site <i class="fas fa-home"></i></a>
+                </div>
+            </div>
+            <div class="row content">
+                <div class="col s12 l3">
+                    <div class="nav">
+                        <h3><i class="fas fa-bars"></i> Navigation</h3>
+                        <ul>
+                            <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
+                            <li><a href="../members/index.html"><i class="fas fa-users"></i> Members</a></li>
+                            <li><a href="../news/index.html"><i class="fas fa-newspaper"></i> News</a></li>
+                            <li><a href="../rules/index.html"><i class="fas fa-align-center"></i> Rules</a></li>
+                            <li><a href="../admins/index.html"><i class="fas fa-user"></i> Admins</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col s12 l9">
+                    <div class="main">
+                        <div class="row title">
+                            <div class="row">
+                                <div class="col s9">
+                                    <h1 id="pageName"><i class="fas fa-align-center"></i> Rules</h1>
+                                </div>
+                                <div class="col s3">
+                                    <button type="submit" id="showNewRule">New <i class="fas fa-plus-circle"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="getPageSection">
+                            <div class="filters">
+                                <form id="getPageForm">
+                                    Page: <input type="number" id="np" required name="np">
+                                    Rules per page: <input type="number" id="rpp" required name="rpp">
+                                </form>
+                                <button type="submit" id="getPage">Apply <i class="fas fa-share-square"></i></button>
+                            </div>
+                            <table cellpadding="0" cellspacing="0" border="0" id="rules" class="responsive-table">
+                                <tr>
+                                    <th>Description</th>
+                                    <th></th>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div id="setSection">
+                            <center>
+                                <form id="setForm">
+                                    <textarea id="description" required autofocus placeholder="description" name="description"></textarea>
+                                </form>
+                                <button type="submit" id="set">Add New Rule <i class="fas fa-plus"></i></button> <button type="submit" class="back">Back to Rules List <i class="fas fa-undo-alt"></i></button>
+                            </center>
+                        </div>
+
+                        <div id="setUpdateSection">
+                            <center>
+                                <form id="setUpdateForm">
+                                    <div class="hiddenInput"><input type="number" id="idUpdate" required name="id"></div>
+                                    <textarea id="descriptionUpdate" required autofocus placeholder="description" name="description"></textarea>
+                                </form>
+                                <button type="submit" id="setUpdate">Update <i class="fas fa-plus"></i></button> <button type="submit" class="back">Back to Rules List <i class="fas fa-undo-alt"></i></button>
+                            </center>
+                        </div>
+
+                        <div id="getSection" class="row">
+                            <div class="col s12">
+                                <b>Description:</b> <span id="getDescription"></span><br>
+                            </div>
+                            <br><br>
+                            <div id="rulesActions">
+                            </div>
+                        </div>
+
+                        <div id="removeSection" class="row">
+                            <div class="col s12">
+                                <b>Description:</b> <span id="getDescriptionRemove"></span><br>
+                            </div>
+                            <br><br>
+                            <div id="removeQuestion">
+                                <center>
+                                    <h3>Are you sure you want to remove this rule?</h3>
+                                    <button type="submit" class="doRemove" id="none">Yes, I do <i class="fas fa-check"></i></button> <button type="submit" class="dontRemove">No, I don't <i class="fas fa-times"></i></button>    
+                                </center>
+                                <br><br>
+                            </div>
+                            <div id="rulesActionsRemove">
+                            </div>
+
+                        </div>
+
+                        <div id="response">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row footer valign-wrapper" id="footer">
+                <div class="col s12">
+                    <div class="copyright">Powered by Idego Fanlisting &#169; Empar Ibáñez</div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // http://jsfiddle.net/davidhong/gP9bh/
+            $.fn.serializeObject = function() {
+                var o = Object.create(null),
+                    elementMapper = function(element) {
+                        element.name = $.camelCase(element.name);
+                        return element;
+                    },
+                    appendToResult = function(i, element) {
+                        var node = o[element.name];
+
+                        if ('undefined' != typeof node && node !== null) {
+                            o[element.name] = node.push ? node.push(element.value) : [node, element.value];
+                        } else {
+                            o[element.name] = element.value;
+                        }
+                    };
+
+                $.each($.map(this.serializeArray(), elementMapper), appendToResult);
+                return o;
+            };
+
+            $(document).ready(function () {
+                $("#setSection").hide();
+                $("#response").hide();
+                $("#getSection").hide();
+                $("#setUpdateSection").hide();
+                $("#removeSection").hide();
+                $("#pageName").empty().append('<i class="fas fa-align-center"></i> Rules - List');
+                data = {"ob": "user", "op": "checkLogin", "json": ""};
+                $.ajax({
+                    type: "POST",
+                    url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
+                    data: data,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status == 200) {
+                            $("#user").empty().append(data.json.username);
+                            $("#loggedUser").show();
+                        } else {
+                            location.href = "../index.html";
+                        }
+                    },
+                    error: function (data) {
+                        console.log("Error cliente login");
+                    }
+                });
+                data2 = {"ob": "rules", "op": "getPage", "json": '{"np":"1", "rpp":"10"}'};
+                $.ajax({
+                    type: "POST",
+                    url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
+                    data: data2,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status == 200) {
+                            for (i = 0; i < data.json.length; i++) {
+                                $("#rules").append("<tr><td>" + data.json[i].description + "</a></td><td><button type=\"submit\" class=\"get\" id=\"" + data.json[i].id + "\"><i class=\"fas fa-eye\"></i></button> <button type=\"submit\" class=\"update\" id=\"" + data.json[i].id + "\"><i class=\"fas fa-pencil-alt\"></i></button> <button type=\"submit\" class=\"remove\" id=\"" + data.json[i].id + "\"><i class=\"fas fa-trash-alt\"></i></button></td></tr>");
+                            }
+                        } else {
+                            console.log("Error servidor get");
+                        }
+                    },
+                    error: function (data) {
+                        console.log("Error cliente get");
+                    }
+                });
+                $("#getPage").click(function () {
+                    values = $("#getPageForm").serializeObject();
+                    data = {"ob": "rules", "op": "getPage", "json": JSON.stringify(values)};
+                    $.ajax({
+                        type: "POST",
+                        url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.status == 200) {
+                                $("#pageName").empty().append("<i class=\"fas fa-align-center\"></i> Rules - List");
+                                $("#rules").empty().append("<tr><th>Description</th></tr>");
+                                for (i = 0; i < data.json.length; i++) {
+                                    $("#rules").append("<tr><td>" + data.json[i].description + "</td><td><button type=\"submit\" class=\"get\" id=\"" + data.json[i].id + "\"><i class=\"fas fa-eye\"></i></button> <button type=\"submit\" class=\"update\" id=\"" + data.json[i].id + "\"><i class=\"fas fa-pencil-alt\"></i></button> <button type=\"submit\" class=\"remove\" id=\"" + data.json[i].id + "\"><i class=\"fas fa-trash-alt\"></i></button></td></tr>");
+                                }
+                            } else {
+                                console.log("Error servidor get");
+                            }
+                        },
+                        error: function (data) {
+                            console.log("Error cliente get");
+                        }
+                    });
+                })
+                $("#set").click(function () {
+                    values = $("#setForm").serializeObject();
+                    data = {"ob": "rules", "op": "set", "json": JSON.stringify(values)};
+                    $.ajax({
+                        type: "POST",
+                        url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.status == 200) {
+                                $("#setForm")[0].reset();
+                                $("#setSection").hide();
+                                $("#setUpdateSection").hide();
+                                $("#response").show();
+                                $("#response").empty().append("<h3>Rule registered successfully</h3><br><br><button type=\"submit\" class=\"back\">Back to Rules List <i class=\"fas fa-undo-alt\"></i></button> ");
+                            } else {
+                                console.log("Error servidor get");
+                            }
+                        },
+                        error: function (data) {
+                            console.log("Error cliente get");
+                        }
+                    });
+                })
+                $("#setUpdate").click(function () {
+                    values = $("#setUpdateForm").serializeObject();
+                    data = {"ob": "rules", "op": "set", "json": JSON.stringify(values)};
+                    $.ajax({
+                        type: "POST",
+                        url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.status == 200) {
+                                $("#setUpdateForm")[0].reset();
+                                $("#setSection").hide();
+                                $("#setUpdateSection").hide();
+                                $("#response").show();
+                                $("#response").empty().append("<h3>Rule updated successfully</h3><br><br><button type=\"submit\" class=\"back\">Back to Rules List <i class=\"fas fa-undo-alt\"></i></button> ");
+                            } else {
+                                console.log("Error servidor get");
+                            }
+                        },
+                        error: function (data) {
+                            console.log("Error cliente get");
+                        }
+                    });
+                })
+                $(document).on("click", ".get", function () {
+                    values = $(this).attr('id');
+                    data = {"ob": "rules", "op": "get", "json": JSON.stringify(values)};
+                    $.ajax({
+                        type: "POST",
+                        url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.status == 200) {
+                                $("#pageName").empty().append("<i class=\"fas fa-align-center\"></i> Rules - View");
+                                $("#getSection").show();
+                                $("#getPageSection").hide();
+                                $("#setUpdateSection").hide();
+                                $("#getDescription").empty().append(data.json.description);
+                                $("#rulesActions").empty().append("<center><button type=\"submit\" class=\"back\">Back <i class=\"fas fa-undo-alt\"></i></button> <button type=\"submit\" class=\"update\" id=\"" + data.json.id + "\">Edit <i class=\"fas fa-pencil-alt\"></i></button> <button type=\"submit\" class=\"remove\" id=\"" + data.json.id + "\">Remove <i class=\"fas fa-trash-alt\"></i></button></center>");
+                            } else {
+                                console.log("Error servidor get");
+                            }
+                        },
+                        error: function (data) {
+                            console.log("Error cliente get");
+                        }
+                    });
+                })
+
+                $(document).on("click", ".doRemove", function () {
+                    values = $(this).attr('id');
+                    data = {"ob": "rules", "op": "remove", "json": JSON.stringify(values)};
+                    $.ajax({
+                        type: "POST",
+                        url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.status == 200) {
+                                $("#removeSection").hide();
+                                $("#response").show();
+                                $("#response").empty().append("<h3>Rule deleted successfully</h3><br><br><button type=\"submit\" class=\"back\">Back to Rules List <i class=\"fas fa-undo-alt\"></i></button> ");
+
+                            } else {
+                                console.log("Error servidor get");
+                            }
+                        },
+                        error: function (data) {
+                            console.log("Error cliente get");
+                        }
+                    });
+                })
+
+                $("#showNewRule").click(function () {
+                    $("#pageName").empty().append("<i class=\"fas fa-align-center\"></i> Rules - New");
+                    $("#getPageSection").hide();
+                    $("#setSection").show();
+                    $("#getSection").hide();
+                    $("#response").hide();
+                    $("#setUpdateSection").hide();
+                })
+                $(document).on("click", ".back", function () {
+                    location.reload();
+                })
+                $(document).on("click", ".askRemove", function () {
+                    $("#removeQuestion").show();
+                    id = $(this).attr('id');
+                    $(".doRemove").attr("id", id);
+                })
+                $(".dontRemove").click(function () {
+                    $("#removeQuestion").hide();
+                    $(".doRemove").val("none");
+                })
+                $(document).on("click", ".remove", function () {
+                    $("#pageName").empty().append("<i class=\"fas fa-align-center\"></i> Rules - Remove");
+                    $("#removeSection").show();
+                    $("#getPageSection").hide();
+                    $("#removeQuestion").hide();
+                    $("#getSection").hide();
+                    values = $(this).attr('id');
+                    data = {"ob": "rules", "op": "get", "json": JSON.stringify(values)};
+                    $.ajax({
+                        type: "POST",
+                        url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.status == 200) {
+                                $("#container").append();
+                                $("#setUpdateSection").hide();
+                                $("#getDescriptionRemove").empty().append(data.json.description)
+                                $("#rulesActionsRemove").empty().append("<center><button type=\"submit\" class=\"back\">Back <i class=\"fas fa-undo-alt\"></i></button> <button type=\"submit\" class=\"askRemove\" id=\"" + data.json.id + "\">Remove <i class=\"fas fa-trash-alt\"></i></button></center>");
+                            } else {
+                                console.log("Error servidor get");
+                            }
+                        },
+                        error: function (data) {
+                            console.log("Error cliente get");
+                        }
+                    });
+                })
+                $(document).on("click", ".update", function () {
+                    //id = $(this).attr('id');
+                    //$("#idUpdate").val(id);
+                    $("#pageName").empty().append("<i class=\"fas fa-align-center\"></i> Rules - Edit");
+                    $("#setUpdateSection").show();
+                    $("#getPageSection").hide();
+                    $("#getSection").hide();
+                    values = $(this).attr('id');
+                    data = {"ob": "rules", "op": "get", "json": JSON.stringify(values)};
+                    $.ajax({
+                        type: "POST",
+                        url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.status == 200) {
+                                $("#idUpdate").val(data.json.id);
+                                $("#descriptionUpdate").val(data.json.description);
+                            } else {
+                                console.log("Error servidor get");
+                            }
+                        },
+                        error: function (data) {
+                            console.log("Error cliente get");
+                        }
+                    });
+                })
+
+                $("#logOut").click(function () {
+                    data = {"ob": "user", "op": "logout", "json": ""};
+                    $.ajax({
+                        type: "POST",
+                        url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.status == 200) {
+                                location.href = "../index.html";
+                            } else {
+                                console.log("Error servidor logout");
+                            }
+                        },
+                        error: function (data) {
+                            console.log("Error cliente logout");
+                        }
+                    });
+                })
+            });
+        </script>
+    </body>
+</html>

@@ -3,9 +3,9 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="../style.css" rel="stylesheet" type="text/css"/>
+        <link href="../../assets/css/style.css" rel="stylesheet" type="text/css"/>
         <script src="//code.jquery.com/jquery-latest.js"></script>
-        <script src="../js/forge-sha256.min.js"></script>
+        <script src="../../assets/js/forge-sha256.min.js"></script>
         
         <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
         <!-- Compiled and minified CSS -->
@@ -208,7 +208,7 @@
                 data = {"ob": "user", "op": "checkLogin", "json": ""};
                 $.ajax({
                     type: "POST",
-                    url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                    url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
                     data: data,
                     dataType: "json",
                     success: function (data) {
@@ -226,7 +226,7 @@
                 data2 = {"ob": "member", "op": "getPage", "json": '{"np":"1", "rpp":"10"}'};
                 $.ajax({
                     type: "POST",
-                    url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                    url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
                     data: data2,
                     dataType: "json",
                     success: function (data) {
@@ -247,7 +247,7 @@
                     data = {"ob": "member", "op": "getPage", "json": JSON.stringify(values)};
                     $.ajax({
                         type: "POST",
-                        url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                        url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
                         data: data,
                         dataType: "json",
                         success: function (data) {
@@ -272,7 +272,7 @@
                     data = {"ob": "member", "op": "set", "json": JSON.stringify(values)};
                     $.ajax({
                         type: "POST",
-                        url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                        url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
                         data: data,
                         dataType: "json",
                         success: function (data) {
@@ -301,7 +301,7 @@
                         data = {"ob": "member", "op": "set", "json": JSON.stringify(values)};
                         $.ajax({
                             type: "POST",
-                            url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                            url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
                             data: data,
                             dataType: "json",
                             success: function (data) {
@@ -327,7 +327,7 @@
                     data = {"ob": "member", "op": "get", "json": JSON.stringify(values)};
                     $.ajax({
                         type: "POST",
-                        url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                        url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
                         data: data,
                         dataType: "json",
                         success: function (data) {
@@ -358,7 +358,7 @@
                     data = {"ob": "member", "op": "remove", "json": JSON.stringify(values)};
                     $.ajax({
                         type: "POST",
-                        url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                        url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
                         data: data,
                         dataType: "json",
                         success: function (data) {
@@ -407,7 +407,7 @@
                     data = {"ob": "member", "op": "get", "json": JSON.stringify(values)};
                     $.ajax({
                         type: "POST",
-                        url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                        url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
                         data: data,
                         dataType: "json",
                         success: function (data) {
@@ -440,7 +440,7 @@
                     data = {"ob": "member", "op": "get", "json": JSON.stringify(values)};
                     $.ajax({
                         type: "POST",
-                        url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                        url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
                         data: data,
                         dataType: "json",
                         success: function (data) {
@@ -466,7 +466,7 @@
                     data = {"ob": "user", "op": "logout", "json": ""};
                     $.ajax({
                         type: "POST",
-                        url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                        url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
                         data: data,
                         dataType: "json",
                         success: function (data) {

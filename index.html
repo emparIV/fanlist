@@ -2,7 +2,7 @@
 <html lang="es-ES">
     <head>
         <meta charset="utf-8">
-        <link href="style.css" rel="stylesheet" type="text/css"/>
+        <link href="assets/css/style.css" rel="stylesheet" type="text/css"/>
         <script src="//code.jquery.com/jquery-latest.js"></script>
         <script src="js/forge-sha256.min.js"></script>
         <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
@@ -11,7 +11,7 @@
         <!-- Compiled and minified JavaScript -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
         
-        <title>Admin Login</title>
+        <title>Idego Fanlist</title>
     </head>
     <body>
         <div class="valigncontainer" id="loginUser">
@@ -21,7 +21,7 @@
                         <img src="img/Idego_logo.png" alt="" id="logo"/>
                     </div>
                     <div class="col s12 l6">
-                        <h1>Admin Login</h1>
+                        <h1>User Login</h1>
                         <form id="loginForm">
                             <input type="text" id="username" placeholder="Username" required autofocus name="username">
                             <input type="password" id="password" placeholder="Password" required autofocus name="password">
@@ -39,7 +39,6 @@
                     </div>
                     <div class="col s12 l4 logOut">
                         <button type="submit" id="logOut">Logout <i class="fas fa-sign-out-alt"></i></button>
-                        <a href="../index.html">View Site <i class="fas fa-home"></i></a>
                     </div>
                 </div>
                 <div class="row content">
@@ -48,10 +47,9 @@
                             <h3><i class="fas fa-bars"></i> Navigation</h3>
                             <ul>
                                 <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
-                                <li><a href="members/index.html"><i class="fas fa-users"></i> Members</a></li>
-                                <li><a href="news/index.html?XDEBUG_SESSION_START=netbeans-xdebug"><i class="fas fa-newspaper"></i> News</a></li>
-                                <li><a href="rules/index.html"><i class="fas fa-align-center"></i> Rules</a></li>
-                                <li><a href="admins/index.html"><i class="fas fa-user"></i> Admins</a></li>
+                                <li><a href="/members/profile/index.html"><i class="fas fa-user"></i> Profile</a></li>
+                                <li><a href="/members/news/index.html"><i class="fas fa-newspaper"></i> News</a></li>
+                                <li><a href="/members/rules/index.html"><i class="fas fa-align-center"></i> Rules</a></li>
                             </ul>
                         </div>
                     </div>
@@ -65,7 +63,6 @@
                             <div class="row stats">
                                 <ul>
                                     <li>Number of members: <span id="membersCount"></span></li>
-                                    <li>Number of admins: <span id="adminsCount"></span></li>
                                     <li>Number of news posted: <span id="newsCount"></span></li>
                                 </ul>
                             </div>
@@ -103,10 +100,10 @@
             $(document).ready(function () {
                 $("#loggedUser").hide();
                 $("#loginUser").hide();
-                data = {"ob": "user", "op": "checkLogin", "json": ""};
+                data = {"ob": "member", "op": "checkLogin", "json": ""};
                 $.ajax({
                     type: "POST",
-                    url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                    url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
                     data: data,
                     dataType: "json",
                     success: function (data) {
@@ -123,28 +120,11 @@
                     error: function (data) {
                         console.log("Error cliente login");
                     }
-                });
-                dataAdmins = {"ob": "user", "op": "getCount", "json": ""};
-                $.ajax({
-                    type: "POST",
-                    url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
-                    data: dataAdmins,
-                    dataType: "json",
-                    success: function (data) {
-                        if (data.status == 200) {
-                            $('#adminsCount').append(data.json);
-                        } else {
-                            console.log("Error servidor get count");
-                        }
-                    },
-                    error: function (data) {
-                        console.log("Error cliente get count");
-                    }
-                });
+                });                
                 dataMembers = {"ob": "member", "op": "getCount", "json": ""};
                 $.ajax({
                     type: "POST",
-                    url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                    url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
                     data: dataMembers,
                     dataType: "json",
                     success: function (data) {
@@ -161,7 +141,7 @@
                 dataNews = {"ob": "news", "op": "getCount", "json": ""};
                 $.ajax({
                     type: "POST",
-                    url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                    url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
                     data: dataNews,
                     dataType: "json",
                     success: function (data) {
@@ -178,10 +158,10 @@
                 $("#login").click(function () {
                     values = $("#loginForm").serializeObject();
                     values.password = forge_sha256($("#password").val());
-                    data = {"ob": "user", "op": "login", "json": JSON.stringify(values)};
+                    data = {"ob": "member", "op": "login", "json": JSON.stringify(values)};
                     $.ajax({
                         type: "POST",
-                        url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                        url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
                         data: data,
                         dataType: "json",
                         success: function (data) {
@@ -197,27 +177,10 @@
                             $(".response").empty().append("Wrong username or password");
                         }
                     });
-                    dataAdmins = {"ob": "user", "op": "getCount", "json": ""};
-                    $.ajax({
-                        type: "POST",
-                        url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
-                        data: dataAdmins,
-                        dataType: "json",
-                        success: function (data) {
-                            if (data.status == 200) {
-                                $('#adminsCount').append(data.json);
-                            } else {
-                                console.log("Error servidor get count");
-                            }
-                        },
-                        error: function (data) {
-                            console.log("Error cliente get count");
-                        }
-                    });
                     dataMembers = {"ob": "member", "op": "getCount", "json": ""};
                     $.ajax({
                         type: "POST",
-                        url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                        url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
                         data: dataMembers,
                         dataType: "json",
                         success: function (data) {
@@ -234,7 +197,7 @@
                     dataNews = {"ob": "news", "op": "getCount", "json": ""};
                     $.ajax({
                         type: "POST",
-                        url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                        url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
                         data: dataNews,
                         dataType: "json",
                         success: function (data) {
@@ -250,10 +213,10 @@
                     });
                 })
                 $("#logOut").click(function () {
-                    data = {"ob": "user", "op": "logout", "json": ""};
+                    data = {"ob": "member", "op": "logout", "json": ""};
                     $.ajax({
                         type: "POST",
-                        url: "http://127.0.0.1:8080/fanlist/controller/Controller.php",
+                        url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
                         data: data,
                         dataType: "json",
                         success: function (data) {
