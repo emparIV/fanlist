@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <link href="assets/css/style.css" rel="stylesheet" type="text/css"/>
         <script src="//code.jquery.com/jquery-latest.js"></script>
-        <script src="js/forge-sha256.min.js"></script>
+        <script src="assets/js/forge-sha256.min.js"></script>
         <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
         <!-- Compiled and minified CSS -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
@@ -23,8 +23,8 @@
                     <div class="col s12 l6">
                         <h1>User Login</h1>
                         <form id="loginForm">
-                            <div class="input-field"><input type="text" id="username" placeholder="Username" required autofocus name="username" class="validate"></div>
-                            <div class="input-field"><input type="password" id="password" placeholder="Password" required autofocus name="password" class="validate"></div>
+                            <div class="input-field"><label for="username">Username</label><input type="text" id="username" required autofocus name="username" class="validate"></div>
+                            <div class="input-field"><label for="password">Password</label><input type="password" id="password" required autofocus name="password" class="validate"></div>
                         </form>
                         <button type="submit" id="login"><i class="fas fa-sign-in-alt"></i> Login</button>
                         <p>Don't have an account? <a href="#" id="showJoin">Join now!</a></p>
@@ -36,28 +36,42 @@
         <div class="valigncontainer" id="joinUser">
             <div class="container wrapper" >
                 <div class="row valign-wrapper">
-                    <div class="col s12 l6">
+                    <div class="col s12 ">
                         <img src="assets/img/Idego_logo.png" alt="" id="logo"/>
-                    </div>
-                    <div class="col s12 l6">
                         <h1>New User</h1>
                         <form id="joinForm">
-                            <div class="input-field"><input type="text" id="usernameJoin" required  placeholder="Username" name="username" class="validate"></div>
-                            <div class="input-field"><input type="password" id="passwordJoin" required  placeholder="Password" name="password" class="validate"></div>
-                            <div class="input-field"><input type="text" id="nameJoin" required autofocus placeholder="Name" name="name" class="validate"></div>
-                            <div class="input-field"><input type="email" id="mailJoin" required  placeholder="Email" name="mail" class="validate"></div>
-                            <div class="input-field"><label for="country">Country</label><select id="countryJoin" name="country"></select></div>
-                            <div class="input-field">
-                                <label for="gender">Gender</label>
-                                <select id="genderJoin" name="gender">
-                                    <option value="unset">Unset</option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                </select>
+                            <div class="row">
+                                <div class="col s12 l6">
+                                    <div class="input-field"><label for="usernameJoin">Username</label><input type="text" id="usernameJoin" required name="username" class="validate"></div>
+                                    <div class="input-field"><label for="passwordJoin">Password</label><input type="password" id="passwordJoin" required name="password" class="validate"></div>
+                                    <div class="input-field"><label for="nameJoin">Name</label><input type="text" id="nameJoin" required autofocus name="name" class="validate"></div>
+                                </div>
+                                <div class="col s12 l6">
+                                    <div class="input-field"><label for="mailJoin">E-Mail</label><input type="email" id="mailJoin" required  name="mail" class="validate"></div>
+                                    <div class="input-field"><label for="countryJoin" class="selectlabel">Country</label><select id="countryJoin" name="country"></select></div>
+                                    <div class="input-field">
+                                        <label for="genderJoin" class="selectlabel">Gender</label>
+                                        <select id="genderJoin" name="gender">
+                                            <option value="unset">Unset</option>
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 ">
+                                    <input type="checkbox" id="rules" value="rules" required > <label for="rules" class="checkbox">I've read and I accept the <a href="http://127.0.0.1:8080/fanlist/members/rules/index.html">rules</a></label>
+                                </div>
                             </div>
                         </form>
-                        <button type="submit" id="join"><i class="fas fa-sign-in-alt"></i> Join</button>
-                        <div class="response"></div>
+                        <div class="row">
+                            <div class="col s12 ">
+                                <button type="submit" id="join"><i class="fas fa-sign-in-alt"></i> Join</button>
+                                <p>Already have an account? <a href="#" id="showLogin">Log in</a></p>
+                                <div class="response"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -77,9 +91,9 @@
                             <h3><i class="fas fa-bars"></i> Navigation</h3>
                             <ul>
                                 <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
-                                <li><a href="/members/profile/index.html"><i class="fas fa-user"></i> Profile</a></li>
-                                <li><a href="/members/news/index.html"><i class="fas fa-newspaper"></i> News</a></li>
-                                <li><a href="/members/rules/index.html"><i class="fas fa-align-center"></i> Rules</a></li>
+                                <li><a href="members/profile/index.html"><i class="fas fa-user"></i> Profile</a></li>
+                                <li><a href="members/news/index.html"><i class="fas fa-newspaper"></i> News</a></li>
+                                <li><a href="members/rules/index.html"><i class="fas fa-align-center"></i> Rules</a></li>
                             </ul>
                         </div>
                     </div>
@@ -109,32 +123,42 @@
             
         </div>
         <script>
-            $.fn.serializeObject = function ()
-            {
-                // http://jsfiddle.net/davidhong/gP9bh/
-                var o = {};
-                var a = this.serializeArray();
-                $.each(a, function () {
-                    if (o[this.name] !== undefined) {
-                        if (!o[this.name].push) {
-                            o[this.name] = [o[this.name]];
+            //http://jsfiddle.net/davidhong/gP9bh/
+            $.fn.serializeObject = function() {
+                var o = Object.create(null),
+                    elementMapper = function(element) {
+                        element.name = $.camelCase(element.name);
+                        return element;
+                    },
+                    appendToResult = function(i, element) {
+                        var node = o[element.name];
+
+                        if ('undefined' != typeof node && node !== null) {
+                            o[element.name] = node.push ? node.push(element.value) : [node, element.value];
+                        } else {
+                            o[element.name] = element.value;
                         }
-                        o[this.name].push(this.value || '');
-                    } else {
-                        o[this.name] = encodeURIComponent(this.value) || '';
-                    }
-                });
+                    };
+
+                $.each($.map(this.serializeArray(), elementMapper), appendToResult);
                 return o;
             };
 
             $(document).ready(function () {
+                $(function(){
+                    $.getJSON('http://127.0.0.1:8080/fanlist/assets/js/countries.json', function(result){
+                        $.each(result, function(i, country){
+                            $('#countryJoin').append('<option value="' + country.name + '">' + country.name + '</option>')
+                        });
+                    });
+                });
                 $("#loggedUser").hide();
                 $("#loginUser").hide();
                 $("#joinUser").hide();
                 data = {"ob": "member", "op": "checkLogin", "json": ""};
                 $.ajax({
                     type: "POST",
-                    url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
+                    url: "http://127.0.0.1:8080/fanlist/server/Controller.php?XDEBUG_SESSION_START=netbeans-xdebug&XDEBUG_SESSION_START=netbeans-xdebug",
                     data: data,
                     dataType: "json",
                     success: function (data) {
@@ -243,6 +267,52 @@
                         }
                     });
                 })
+                $("#showJoin").click(function () {
+                    $('#loginUser').hide();
+                    $('#joinUser').show();
+                });
+                $('#join').click(function() {
+                    if(!$('#rules').is(':checked')) {
+                        $("#join .response").empty().append("You MUST read and accept the rules before joining");
+                        return false;
+                    } else {
+                        validation = $("#joinForm").find(".invalid");
+                        if (validation.length > 0 ){
+                            $("#join .response").empty().append("Revisa los campos");
+                            $("#join .response").show();
+                        } else {
+                            values = $("#joinForm").serializeObject();
+                            values.password = forge_sha256($("#passwordJoin").val());
+                            data = {"ob": "member", "op": "set", "json": JSON.stringify(values)};
+                            $.ajax({
+                                type: "POST",
+                                url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
+                                data: data,
+                                dataType: "json",
+                                success: function (data) {
+                                    if (data.status == 200) {
+                                        $("#joinForm")[0].reset();
+                                        $("#joinUser").hide();
+                                        $("#loginUser").show();
+                                        $("#loginUser .response").show();
+                                        $("#loginUser .response").empty().append("<h3>Congrats! You are now part of our community!</h3>");
+                                    } else {
+                                        console.log("Error servidor set");
+                                        $("#joinUser .response").show();
+                                        $("#joinUser .response").empty().append("<h3>Something went wrong, please try again later</h3>");
+                                    }
+                                },
+                                error: function (data) {
+                                    console.log("Error cliente set");
+                                }
+                            });
+                        }
+                    }
+                });
+                $("#showLogin").click(function () {
+                    $('#joinUser').hide();
+                    $('#loginUser').show();
+                });
                 $("#logOut").click(function () {
                     data = {"ob": "member", "op": "logout", "json": ""};
                     $.ajax({

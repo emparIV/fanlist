@@ -25,7 +25,7 @@ class NewsService implements ServiceTableInterface, ServiceViewInterface {
     }
     
     public function set($json) {
-        if ($this->checkPermission()) {
+        if (isset($_SESSION[user])) {
             try {
                 $oDao = new NewsDao();
                 $json['user_id'] = $_SESSION[user][id];
@@ -43,7 +43,7 @@ class NewsService implements ServiceTableInterface, ServiceViewInterface {
     }
     
     public function remove($json) {
-        if ($this->checkPermission()) {
+        if (isset($_SESSION[user])) {
             $id = $json['id'];
             try {
                 $oDao = new NewsDao();
@@ -96,7 +96,7 @@ class NewsService implements ServiceTableInterface, ServiceViewInterface {
     }
 
     private function checkPermission() {
-        if (isset($_SESSION[user])) {
+        if (isset($_SESSION[user]) || isset($_SESSION[member])) {
             return TRUE;
         } else {
             return FALSE;

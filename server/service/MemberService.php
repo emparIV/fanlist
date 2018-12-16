@@ -8,7 +8,7 @@
 class MemberService implements ServiceTableInterface, ServiceViewInterface {
     
     private function checkPermission() {
-        if (isset($_SESSION[member])) {
+        if (isset($_SESSION[member]) || isset($_SESSION[user])) {
             return TRUE;
         } else {
             return FALSE;
@@ -53,7 +53,7 @@ class MemberService implements ServiceTableInterface, ServiceViewInterface {
     }
 
     public function get($json) {
-        if ($this->checkPermission()) {
+        if (isset($_SESSION[user]) || isset($_SESSION[member])) {
             $id = $json['id'];
             try {
                 $oDao = new MemberDao();
@@ -70,20 +70,14 @@ class MemberService implements ServiceTableInterface, ServiceViewInterface {
     }
     
     public function set($json) {
-        if ($this->checkPermission()) {
-            try {
-                $oDao = new MemberDao();
-                $oResult = $oDao->set($json);
-                $aResult = ["status" => 200, "json" => $oResult];
-            } catch (Exception $ex) {
-                throw new Exception($ex->getMessage());
-            }
-            return $aResult;
-        } else {
-            $aResult = ["status" => 401, "json" => "Unauthorized operation"];
-            return $aResult;
+        try {
+            $oDao = new MemberDao();
+            $oResult = $oDao->set($json);
+            $aResult = ["status" => 200, "json" => $oResult];
+        } catch (Exception $ex) {
+            throw new Exception($ex->getMessage());
         }
-        
+        return $aResult;   
     }
     
     public function remove($json) {
@@ -139,7 +133,22 @@ class MemberService implements ServiceTableInterface, ServiceViewInterface {
         
     }
 
-    
+    public function getProfile($json) {
+        if (isset($_SESSION[member])) {
+            $id = $_SESSION[member][id];
+            try {
+                $oDao = new MemberDao();
+                $oResult = $oDao->get($id);
+                $aResult = ["status" => 200, "json" => $oResult];
+            } catch (Exception $ex) {
+                throw new Exception($ex->getMessage());
+            }
+            return $aResult;
+        } else {
+            $aResult = ["status" => 401, "json" => "Unauthorized operation"];
+            return $aResult;
+        }
+    }
 
     
 

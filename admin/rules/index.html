@@ -53,8 +53,8 @@
                         <div id="getPageSection">
                             <div class="filters">
                                 <form id="getPageForm">
-                                    Page: <input type="number" id="np" required name="np">
-                                    Rules per page: <input type="number" id="rpp" required name="rpp">
+                                    <label for="np">Page:</label> <input type="number" id="np" required name="np">
+                                    <label for="rpp">Members per page:</label> <input type="number" id="rpp" required name="rpp">
                                 </form>
                                 <button type="submit" id="getPage">Apply <i class="fas fa-share-square"></i></button>
                             </div>
@@ -69,9 +69,10 @@
                         <div id="setSection">
                             <center>
                                 <form id="setForm">
-                                    <textarea id="description" required autofocus placeholder="description" name="description"></textarea>
+                                    <div class="input-field"><label for="description">Description</label><textarea id="description" required autofocus name="description"></textarea></div>
                                 </form>
                                 <button type="submit" id="set">Add New Rule <i class="fas fa-plus"></i></button> <button type="submit" class="back">Back to Rules List <i class="fas fa-undo-alt"></i></button>
+                                <div id="setMessages"></div>
                             </center>
                         </div>
 
@@ -79,9 +80,10 @@
                             <center>
                                 <form id="setUpdateForm">
                                     <div class="hiddenInput"><input type="number" id="idUpdate" required name="id"></div>
-                                    <textarea id="descriptionUpdate" required autofocus placeholder="description" name="description"></textarea>
+                                    <div class="input-field"><label for="descriptionUpdate">Description</label><textarea id="descriptionUpdate" required autofocus name="description"></textarea></div>
                                 </form>
                                 <button type="submit" id="setUpdate">Update <i class="fas fa-plus"></i></button> <button type="submit" class="back">Back to Rules List <i class="fas fa-undo-alt"></i></button>
+                                <div id="setUpdateMessages"></div>
                             </center>
                         </div>
 
@@ -217,52 +219,62 @@
                     });
                 })
                 $("#set").click(function () {
-                    values = $("#setForm").serializeObject();
-                    data = {"ob": "rules", "op": "set", "json": JSON.stringify(values)};
-                    $.ajax({
-                        type: "POST",
-                        url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
-                        data: data,
-                        dataType: "json",
-                        success: function (data) {
-                            if (data.status == 200) {
-                                $("#setForm")[0].reset();
-                                $("#setSection").hide();
-                                $("#setUpdateSection").hide();
-                                $("#response").show();
-                                $("#response").empty().append("<h3>Rule registered successfully</h3><br><br><button type=\"submit\" class=\"back\">Back to Rules List <i class=\"fas fa-undo-alt\"></i></button> ");
-                            } else {
-                                console.log("Error servidor get");
+                    validation = $("#setForm").find(".invalid");
+                    if (validation.length > 0 ){
+                        $("#setMessages").empty().append("Revisa los campos");
+                    } else {
+                        values = $("#setForm").serializeObject();
+                        data = {"ob": "rules", "op": "set", "json": JSON.stringify(values)};
+                        $.ajax({
+                            type: "POST",
+                            url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
+                            data: data,
+                            dataType: "json",
+                            success: function (data) {
+                                if (data.status == 200) {
+                                    $("#setForm")[0].reset();
+                                    $("#setSection").hide();
+                                    $("#setUpdateSection").hide();
+                                    $("#response").show();
+                                    $("#response").empty().append("<h3>Rule registered successfully</h3><br><br><button type=\"submit\" class=\"back\">Back to Rules List <i class=\"fas fa-undo-alt\"></i></button> ");
+                                } else {
+                                    console.log("Error servidor get");
+                                }
+                            },
+                            error: function (data) {
+                                console.log("Error cliente get");
                             }
-                        },
-                        error: function (data) {
-                            console.log("Error cliente get");
-                        }
-                    });
+                        });
+                    }
                 })
                 $("#setUpdate").click(function () {
-                    values = $("#setUpdateForm").serializeObject();
-                    data = {"ob": "rules", "op": "set", "json": JSON.stringify(values)};
-                    $.ajax({
-                        type: "POST",
-                        url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
-                        data: data,
-                        dataType: "json",
-                        success: function (data) {
-                            if (data.status == 200) {
-                                $("#setUpdateForm")[0].reset();
-                                $("#setSection").hide();
-                                $("#setUpdateSection").hide();
-                                $("#response").show();
-                                $("#response").empty().append("<h3>Rule updated successfully</h3><br><br><button type=\"submit\" class=\"back\">Back to Rules List <i class=\"fas fa-undo-alt\"></i></button> ");
-                            } else {
-                                console.log("Error servidor get");
+                    validation = $("#setUpdateForm").find(".invalid");
+                    if (validation.length > 0 ){
+                        $("#setUpdateMessages").empty().append("Revisa los campos");
+                    } else {
+                        values = $("#setUpdateForm").serializeObject();
+                        data = {"ob": "rules", "op": "set", "json": JSON.stringify(values)};
+                        $.ajax({
+                            type: "POST",
+                            url: "http://127.0.0.1:8080/fanlist/server/Controller.php",
+                            data: data,
+                            dataType: "json",
+                            success: function (data) {
+                                if (data.status == 200) {
+                                    $("#setUpdateForm")[0].reset();
+                                    $("#setSection").hide();
+                                    $("#setUpdateSection").hide();
+                                    $("#response").show();
+                                    $("#response").empty().append("<h3>Rule updated successfully</h3><br><br><button type=\"submit\" class=\"back\">Back to Rules List <i class=\"fas fa-undo-alt\"></i></button> ");
+                                } else {
+                                    console.log("Error servidor get");
+                                }
+                            },
+                            error: function (data) {
+                                console.log("Error cliente get");
                             }
-                        },
-                        error: function (data) {
-                            console.log("Error cliente get");
-                        }
-                    });
+                        });
+                    }
                 })
                 $(document).on("click", ".get", function () {
                     values = $(this).attr('id');

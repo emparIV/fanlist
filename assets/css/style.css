@@ -35,9 +35,67 @@ h3 {
     border-left: #353b5b solid 2px;
 }
 
+input, textarea {
+    background: #fff !important;
+    padding: 18px 15px !important;
+    margin: 10px auto 0 auto !important;
+    color: #212227 !important;
+    box-sizing: border-box !important;
+    height: auto !important;
+    border-radius: 4px !important;
+    line-height: 16px !important;
+}
+
+textarea {
+    min-height: 200px;
+}
+
+input[type="checkbox"] {
+    display: inline-block !important;
+    opacity: 1 !important;
+    position: relative !important;
+    left: 0;
+    width: fit-content !important;
+    pointer-events: initial !important;
+}
+
+label {
+    padding: 18px 15px !important;
+    font-size: 14px;
+}
+
+.input-field>label:not(.label-icon).active {
+    transform-origin: -15px -58px !important;
+}
+
+label.selectlabel {
+    font-size: 12px !important;
+    top: -41px !important;
+    left: -5px !important;
+}
+
 select {
     display: unset !important;
+    background: #fff !important;
+    border-radius: 4px !important;
+    padding: 17px 15px !important;
+    height: auto !important;
+    line-height: 16px !important;
+    margin: 10px auto 0 auto !important;
 }
+
+.response {
+    color: #fff;
+    text-align: center;
+}
+
+a {
+    color: #ab895a !important;
+}
+
+a:hover {
+    color: #212227 !important
+} 
 
 /******************** LOGIN ********************/
 
@@ -53,19 +111,11 @@ select {
     padding: 35px 20px;
 }
 
-#loginUser input {
-    outline: none;
-    border: none;
-    background: #fff;
-    padding: 8px 30px;
-    border-radius: 30px;
-    display: block;
-    margin: 15px auto;
-    width: 270px;
-    color: #212227;
+#joinUser .row {
+    padding: 0 20px;
 }
 
-button#login {
+button#login, button#join {
     outline: none;
     border: none;
     background: #212227;
@@ -80,13 +130,13 @@ button#login {
     font-family: 'Poppins', sans-serif;
 }
 
-button#login:hover {
+button#login:hover, button#join:hover {
     background: #5e6796;
     transition: 0.2s;
     cursor: pointer;
 }
 
-#loginUser h1 {
+#loginUser h1, #joinUser h1 {
     color: #fff;
     font-weight: 600;
     text-transform: uppercase;
@@ -98,9 +148,21 @@ button#login:hover {
     width: 100%;
 }
 
-.response {
-    color: #fff;
+#joinUser img#logo {
+    width: 300px;
+    margin: 0 auto !important;
+    display: block;
+}
+
+#loginUser p, #joinUser p {
     text-align: center;
+    color: #fff;
+}
+
+#loginUser p a, #joinUser p a {
+    color: #d4b78e;
+    font-weight: 600;
+    text-transform: uppercase;
 }
 
 /******************** INDEX ********************/
@@ -151,9 +213,8 @@ button, .logOut a {
     padding: 10px;
     border-radius: 30px;
     width: 120px;
-    color: #fff;
+    color: #fff !important;
     font-weight: 600;
-    text-transform: uppercase;
     margin-left: 10px;
     font-family: 'Poppins', sans-serif;
 }
@@ -205,7 +266,7 @@ button:focus {
 
 .nav li a {
     font-weight: 600;
-    color: #353b5b;
+    color: #353b5b !important;
     text-decoration: none;
     font-size: 12px;
     width: 88%;
@@ -219,7 +280,7 @@ button:focus {
 .nav li a:hover {
     background: #353b5b;
     transition: 0.2s;
-    color: #fff;
+    color: #fff !important;
 }
 
 .main {
@@ -292,6 +353,11 @@ table {
 }
 
 #setSection input, #setUpdateSection input {
+    background: #efefef !important;
+}
+
+/*
+#setSection input, #setUpdateSection input {
     display: block;
     outline: none;
     border: none;
@@ -304,6 +370,7 @@ table {
     border-bottom: solid 2px #d6d6d6;
 }
 
+
 #setSection input::placeholder, #setUpdateSection input::placeholder {
     color: #9b9b9c;
 }
@@ -311,6 +378,7 @@ table {
 #setSection input:focus, #setUpdateSection input:focus {
     box-shadow: none !important;
 }
+*/
 
 .hiddenInput {
     visibility: hidden;
@@ -435,6 +503,47 @@ td.text-center {
 td.text-right {
     text-align: right;
 }
+
+
+.post {
+    background: #fff;
+    box-shadow: 2px 5px 20px rgba(0,0,0,0.1);
+    margin-bottom: 25px;
+}
+
+.post-title {
+    background: #353b5b;
+    padding: 15px 25px;
+    box-sizing: border-box;
+    color: #fff;
+    font-weight: 600;
+}
+
+.post-content {
+    padding: 35px;
+}
+
+.post-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 25px 35px;
+    background: #5e6796;
+    color: #fff;
+}
+
+.rule {
+    padding: 25px 35px;
+    margin-bottom: 25px;
+    color: #fff;
+}
+
+.post-info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.rule:nth-child(even) { background: #353b5b; }
+.rule:nth-child(odd) { background: #5e6796; }
 
 @media only screen and (min-width: 993px) {
 

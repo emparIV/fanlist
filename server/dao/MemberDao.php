@@ -88,7 +88,7 @@ class MemberDao implements DaoTableInterface, DaoViewInterface {
                 }
             }
         } else {
-            throw new Exception();
+            throw new Exception();                               
         }
         return $aResponse;
     }
@@ -103,9 +103,9 @@ class MemberDao implements DaoTableInterface, DaoViewInterface {
                 if ($array['id'] == "") {
                     $sql = $connection->getConnection();
                     $preparedStatement = $sql->prepare("INSERT INTO member "
-                            . "(username, password, name, mail, country, gender, NOW()) VALUES( "
-                            . "?,?,?,?,?)");
-                    $preparedStatement->bind_param('ssssss', $array['username'], $array['password'], $array['name'], $array['mail'], $array['country']);
+                            . "(username, password, name, mail, country, gender, join_date) VALUES( "
+                            . "?,?,?,?,?,?,NOW())");
+                    $preparedStatement->bind_param('ssssss', $array['username'], $array['password'], $array['name'], $array['mail'], $array['country'], $array['gender']);
                     $preparedStatement->execute();
                     $preparedStatement->store_result();
                     $preparedStatement->bind_result($response);
@@ -113,9 +113,9 @@ class MemberDao implements DaoTableInterface, DaoViewInterface {
                 } else {
                     $insert = FALSE;
                     $sql = $connection->getConnection();
-                    $preparedStatement = $sql->prepare("UPDATE user SET "
-                            . "username = ?, password = ?, name = ?, mail = ?, country = ?, gender = ?, twitter = ?, instagram = ? WHERE id = ? ");
-                    $preparedStatement->bind_param('ssssssi', $array['username'], $array['password'], $array['name'], $array['mail'], $array['country'], $array["id"]);
+                    $preparedStatement = $sql->prepare("UPDATE member SET "
+                            . "username = ?, password = ?, name = ?, mail = ?, country = ?, gender = ? WHERE id = ? ");
+                    $preparedStatement->bind_param('ssssssi', $array['username'], $array['password'], $array['name'], $array['mail'], $array['country'], $array['gender'], $array["id"]);
                     $preparedStatement->execute();
                     $preparedStatement->store_result();
                     $preparedStatement->bind_result($response);
